@@ -1,7 +1,7 @@
 baseURL = "https://blog.example.com/"
 locale = "zh-cn"
 defaultContentLanguage = "zh"
-title = "李想 · 工程笔记"
+title = "李翔 · 工程笔记"
 theme = "PaperMod"
 enableRobotsTXT = true
 hasCJKLanguage = true
@@ -27,8 +27,8 @@ hasCJKLanguage = true
 
 [params]
   env = "production"
-  description = "李想的个人博客：工程笔记、架构拆解与读书随手记。"
-  author = "李想"
+  description = "李翔的个人博客：工程笔记、架构拆解与读书随手记。"
+  author = "李翔"
   defaultTheme = "auto"
   ShowReadingTime = true
   ShowShareButtons = false
@@ -43,7 +43,7 @@ hasCJKLanguage = true
   mainSections = ["posts"]
 
   [params.label]
-    text = "李想"
+    text = "李翔"
     iconHeight = 26
 
   [params.assets]
@@ -54,7 +54,7 @@ hasCJKLanguage = true
     text = "用 Hugo 构建 · 内容写在 Markdown 里"
 
   [params.homeInfoParams]
-    Title = "你好，我是李想 👋"
+    Title = "你好，我是李翔 👋"
     Content = """
 <img class="avatar" src="/images/avatar.svg" alt="avatar" width="88" height="88" align="left">
 

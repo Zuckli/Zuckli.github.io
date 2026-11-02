@@ -1,4 +1,4 @@
-# 李想 · 工程笔记
+# 李翔 · 工程笔记
 
 个人博客。Hugo + PaperMod + Pagefind，纯静态，部署到 Cloudflare Workers 静态资源。
 
