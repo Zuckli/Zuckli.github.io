@@ -1,0 +1,43 @@
+{{- define "main" }}
+
+<header class="page-header">
+  <h1>{{ .Title }}{{ with .Params.placeholder }}<span class="search-hint">{{ . }}</span>{{ end }}</h1>
+</header>
+
+{{- /* Pagefind：索引在 npm run build 时生成到 public/pagefind */ -}}
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<div id="pagefind-search"></div>
+<script src="/pagefind/pagefind-ui.js" defer></script>
+<script>
+  window.addEventListener("DOMContentLoaded", function () {
+    if (!window.PagefindUI) {
+      document.getElementById("pagefind-search").innerHTML =
+        '<p class="comments--unconfigured">本地开发时搜索不可用：先跑 <code>npm run build</code> 生成索引，再用 <code>npm run preview</code> 预览。</p>';
+      return;
+    }
+    new PagefindUI({
+      element: "#pagefind-search",
+      showSubResults: true,
+      showImages: false,
+      resetStyles: false,
+      translations: {
+        placeholder: "搜索标题、正文或标签…",
+        clear_search: "清空",
+        load_more: "加载更多结果",
+        search_label: "站内搜索",
+        filters_label: "筛选",
+        zero_matches: "没有找到匹配的内容",
+        results: "条结果",
+        total_results: "条结果",
+        alt_search: "没有结果，试试其他关键词：",
+        search_suggestion: "换个关键词试试：",
+        searching: "搜索中…",
+        results_label: "搜索结果",
+        one_result: "条结果",
+        one_filter: "个筛选"
+      }
+    });
+  });
+</script>
+
+{{- end }}

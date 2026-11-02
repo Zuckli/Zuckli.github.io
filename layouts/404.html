@@ -1,0 +1,12 @@
+{{- define "main" }}
+<header class="page-header">
+  <h1>404 · 页面不存在</h1>
+</header>
+<div class="post-content md-content">
+  <p>这个地址没有对应的文章。可能是链接写错了，或者文章被我改名了。</p>
+  <p>可以从 <a href="{{ "/" | absURL }}">首页</a> 或 <a href="{{ "/archives/" | absURL }}">归档</a> 重新找，也可以直接搜：</p>
+</div>
+<form action="/search/" method="get" class="notfound-search">
+  <input type="search" name="q" placeholder="搜索站内文章…" aria-label="搜索">
+</form>
+{{- end }}

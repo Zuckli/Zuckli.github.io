@@ -1,0 +1,107 @@
+baseURL = "https://blog.example.com/"
+locale = "zh-cn"
+defaultContentLanguage = "zh"
+title = "李想 · 工程笔记"
+theme = "PaperMod"
+enableRobotsTXT = true
+hasCJKLanguage = true
+
+[pagination]
+  pagerSize = 10
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      # 允许在 Markdown 里直接写 HTML（首页头像、details 折叠块等）
+      unsafe = true
+  [markup.highlight]
+    noClasses = false
+    guessSyntax = true
+    lineNos = false
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 4
+
+[params]
+  env = "production"
+  description = "李想的个人博客：工程笔记、架构拆解与读书随手记。"
+  author = "李想"
+  defaultTheme = "auto"
+  ShowReadingTime = true
+  ShowShareButtons = false
+  ShowCodeCopyButtons = true
+  ShowToc = true
+  TocOpen = false
+  ShowBreadCrumbs = true
+  ShowPostNavLinks = true
+  ShowRssButtonInSectionTermList = true
+  ShowAllPagesInArchive = true
+  DateFormat = "2006-01-02"
+  mainSections = ["posts"]
+
+  [params.label]
+    text = "李想"
+    iconHeight = 26
+
+  [params.assets]
+    favicon = "favicon.svg"
+    disableFingerprinting = false
+
+  [params.footer]
+    text = "用 Hugo 构建 · 内容写在 Markdown 里"
+
+  [params.homeInfoParams]
+    Title = "你好，我是李想 👋"
+    Content = """
+<img class="avatar" src="/images/avatar.svg" alt="avatar" width="88" height="88" align="left">
+
+这里放工程笔记、架构拆解和读书随手记。多数文章来自真实踩过的坑，写完就发，不做完美主义。
+
+目前在做 **AgentOS / 本地优先的 AI 工具链**，顺手记录静态站点、macOS 和网络方面的小事。
+"""
+
+  # 评论：在 GitHub 上开好 Discussions 后，把 repoID / categoryID 填进来即可生效
+  [params.comments]
+    [params.comments.giscus]
+      repo = ""
+      repoID = ""
+      category = "Announcements"
+      categoryID = ""
+      mapping = "pathname"
+      lang = "zh-CN"
+
+[[params.socialIcons]]
+  name = "github"
+  url = "https://github.com/Zuckli"
+
+[[params.socialIcons]]
+  name = "rss"
+  url = "/index.xml"
+
+[[menus.main]]
+  name = "文章"
+  url = "/posts/"
+  weight = 10
+
+[[menus.main]]
+  name = "归档"
+  url = "/archives/"
+  weight = 20
+
+[[menus.main]]
+  name = "标签"
+  url = "/tags/"
+  weight = 30
+
+[[menus.main]]
+  name = "关于"
+  url = "/about/"
+  weight = 40
+
+[[menus.main]]
+  name = "搜索"
+  url = "/search/"
+  weight = 50

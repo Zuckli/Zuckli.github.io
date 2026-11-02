@@ -1,0 +1,7 @@
+{{- /* 同主题的 anchored_headings，额外给锚点加 data-pagefind-ignore，
+       避免搜索结果的子标题里混进一个 “#” */ -}}
+{{ . | replaceRE
+    "(<h[1-6] id=\"([^\"]+)\".+)(</h[1-6]+>)"
+    "${1}<a hidden class=\"anchor\" aria-hidden=\"true\" data-pagefind-ignore href=\"#${2}\">#</a>${3}"
+    | safeHTML
+}}

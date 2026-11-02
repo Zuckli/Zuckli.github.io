@@ -1,0 +1,27 @@
+{{- /* Giscus（GitHub Discussions）评论。未配置 id 时显示占位提示，不加载第三方脚本 */ -}}
+{{- $c := site.Params.comments.giscus -}}
+{{- if and (eq .Type "posts") (.Param "comments") -}}
+  {{- if and $c.repo $c.repoID $c.categoryID -}}
+  <div class="comments">
+    <script src="https://giscus.app/client.js"
+      data-repo="{{ $c.repo }}"
+      data-repo-id="{{ $c.repoID }}"
+      data-category="{{ $c.category }}"
+      data-category-id="{{ $c.categoryID }}"
+      data-mapping="{{ $c.mapping | default "pathname" }}"
+      data-strict="0"
+      data-reactions-enabled="1"
+      data-emit-metadata="0"
+      data-input-position="top"
+      data-theme="preferred_color_scheme"
+      data-lang="{{ $c.lang | default "zh-CN" }}"
+      crossorigin="anonymous"
+      async>
+    </script>
+  </div>
+  {{- else -}}
+  <div class="comments comments--unconfigured">
+    <p>评论区还没开通。想聊这篇的话，可以先在 <a href="https://github.com/Zuckli" target="_blank" rel="noopener">GitHub</a> 上找我。</p>
+  </div>
+  {{- end -}}
+{{- end -}}

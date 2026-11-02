@@ -1,0 +1,159 @@
+/* PaperMod 扩展样式：只做细节调整，不覆盖主题结构 */
+
+:root {
+  --theme: #fbfaf7;
+  --entry: #ffffff;
+  --primary: #1a1a1a;
+  --secondary: #6b6b6b;
+  --tertiary: #e8e4dc;
+  --content: #262626;
+  --code-bg: #f4f1ea;
+  --border: #e5e1d8;
+}
+
+:root[data-theme="dark"] {
+  --theme: #17181a;
+  --entry: #1e2023;
+  --primary: #ecebe6;
+  --secondary: #a0a0a0;
+  --tertiary: #2a2c30;
+  --content: #d8d7d2;
+  --code-bg: #232529;
+  --border: #2c2f34;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB",
+    "Noto Sans SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+  letter-spacing: 0.005em;
+}
+
+.post-content,
+.md-content {
+  line-height: 1.85;
+}
+
+.post-content h2 {
+  margin-top: 2.2em;
+}
+
+/* 首页头像：用网格把头像固定在一列，正文统一在第二列，避免绕排造成的参差 */
+.home-info .entry-content {
+  display: grid;
+  grid-template-columns: 88px 1fr;
+  column-gap: 20px;
+  align-items: start;
+}
+
+.home-info .entry-content > .avatar {
+  grid-column: 1;
+  grid-row: 1 / span 3;
+  width: 88px;
+  height: 88px;
+  margin: 4px 0 0;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+}
+
+.home-info .entry-content > p {
+  grid-column: 2;
+  margin: 0 0 0.55em;
+}
+
+@media (max-width: 560px) {
+  .home-info .entry-content {
+    grid-template-columns: 1fr;
+  }
+
+  .home-info .entry-content > .avatar {
+    grid-column: 1;
+    grid-row: auto;
+    margin-bottom: 8px;
+  }
+
+  .home-info .entry-content > p {
+    grid-column: 1;
+  }
+}
+
+/* 代码块更柔和 */
+.post-content pre,
+.md-content pre {
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.post-content code {
+  font-size: 0.9em;
+}
+
+/* 表格不撑破正文 */
+.post-content table {
+  display: block;
+  overflow-x: auto;
+  font-size: 0.94em;
+}
+
+/* 搜索结果与主题配色对齐 */
+#pagefind-search {
+  --pagefind-ui-primary: var(--primary);
+  --pagefind-ui-text: var(--content);
+  --pagefind-ui-background: var(--theme);
+  --pagefind-ui-border: var(--border);
+  --pagefind-ui-tag: var(--tertiary);
+  --pagefind-ui-border-radius: 8px;
+  --pagefind-ui-font: inherit;
+}
+
+.page-header .search-hint {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.55em;
+  font-weight: 400;
+  color: var(--secondary);
+}
+
+/* 未配置评论时的提示条 */
+.comments--unconfigured {
+  margin-top: 32px;
+  padding: 14px 16px;
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  font-size: 0.9em;
+  color: var(--secondary);
+}
+
+.comments {
+  margin-top: 32px;
+}
+
+/* 移动端：导航与图标的点击区域放大一点 */
+@media (max-width: 640px) {
+  .header-nav {
+    row-gap: 0;
+    padding: 0 1.2rem;
+  }
+
+  .menu {
+    flex-wrap: wrap;
+    column-gap: 1.05rem;
+  }
+
+  .menu a {
+    padding: 0 0.15rem;
+    line-height: 2.6rem;
+  }
+
+  .theme-toggle {
+    min-width: 34px;
+    min-height: 34px;
+  }
+
+  .social-icons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 34px;
+    min-height: 34px;
+  }
+}
