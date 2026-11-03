@@ -50,6 +50,10 @@ jobs:
             -H "Authorization: Bearer $CF_TOKEN" \
             https://api.cloudflare.com/client/v4/user/tokens/verify
           cat /tmp/verify.json; echo
+          echo "--- account access probe ---"
+          curl -sS -w "\nhttp %{http_code}\n" \
+            -H "Authorization: Bearer $CF_TOKEN" \
+            "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CLOUDFLARE_ACCOUNT_ID }}/workers/scripts" | head -c 600; echo
 
       - name: Deploy to Cloudflare
         uses: cloudflare/wrangler-action@v3
