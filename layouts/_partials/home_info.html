@@ -1,0 +1,22 @@
+{{- /* 首页简介：头像与文字用两列网格，社交链接收在文字列里，保持同一左基准线 */ -}}
+{{- with site.Params.homeInfoParams }}
+<article class="first-entry home-info">
+  {{- $avatar := .avatar | default "images/avatar.svg" }}
+  <img class="home-avatar" src="{{ $avatar | relURL }}" alt="" width="72" height="72"
+    loading="eager" decoding="async">
+  <div class="home-body">
+    <header class="entry-header">
+      <p class="home-eyebrow">{{ .eyebrow | default site.Title }}</p>
+      <h1>{{ .Title | markdownify }}</h1>
+    </header>
+    <div class="entry-content md-content">
+      {{ $opts := dict "display" "block" }}
+      {{ .Content | $.Page.RenderString $opts }}
+    </div>
+    <footer class="entry-footer home-actions">
+      {{ partial "social_icons.html" (dict "align" site.Params.homeInfoParams.AlignSocialIconsTo) }}
+      <a class="home-link" href="{{ "/about/" | relLangURL }}">关于这个站</a>
+    </footer>
+  </div>
+</article>
+{{- end -}}

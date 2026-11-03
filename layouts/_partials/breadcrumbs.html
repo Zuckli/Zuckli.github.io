@@ -1,0 +1,12 @@
+{{- /* 面包屑：用文本分隔符，且不带结尾的悬空箭头——当前页由下方 H1 承担 */ -}}
+{{- if (.Param "ShowBreadCrumbs") -}}
+{{- $ancestors := .Ancestors.Reverse -}}
+{{- with $ancestors -}}
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+    {{- range $i, $bc := . }}
+    {{- if $i }}<span class="sep" aria-hidden="true">/</span>{{ end -}}
+    <a href="{{ $bc.RelPermalink }}">{{ if eq $i 0 }}{{ i18n "home" | default "Home" }}{{ else }}{{ $bc.Title }}{{ end }}</a>
+    {{- end }}
+</nav>
+{{- end -}}
+{{- end -}}

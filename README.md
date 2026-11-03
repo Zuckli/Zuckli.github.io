@@ -23,16 +23,28 @@
 content/
   posts/            # 文章（page bundle：index.md + 图片同目录）
   about.md  archives.md  search.md
+  tags/_index.md  categories/_index.md   # 分类页标题（默认是英文 Tags/Categories）
 layouts/
   _partials/extend_head.html   # KaTeX 注入
   _partials/comments.html      # Giscus
+  _partials/home_info.html     # 首页简介：头像 + 文字的网格结构
+  _partials/breadcrumbs.html   # 面包屑（文本分隔符，不带悬空箭头）
+  _partials/post_nav_links.html # 上一篇 / 下一篇
   search/pagefind.html         # 搜索页
   _shortcodes/hugo-version.html
  404.html
-assets/css/extended/01-custom.css   # 配色、首页头像网格、移动端点击区域
+assets/css/extended/01-custom.css   # 设计变量、排版、列表、代码块、移动端
 static/images/avatar.svg  static/favicon.svg
 hugo.toml  wrangler.jsonc  package.json
 ```
+
+## 样式约定
+
+- 颜色只有中性灰阶 + 一个强调色（`--accent`，墨蓝），浅色/暗色各一套变量，改色只改 `:root`。
+- 层次用**细线 + 间距**建立：列表是带分隔线的行，不是卡片；页头/页脚/正文共用 704px 内容宽度。
+- 元信息（日期、阅读时长、面包屑、页脚）统一等宽字体 + 等宽数字。
+- 正文图片必须带宽高（`layouts/_markup/render-image.html`），避免懒加载高度塌陷。
+- 文章封面只在正文页出现，列表页不放大图。
 
 ## 本地开发
 

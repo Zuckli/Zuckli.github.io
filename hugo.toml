@@ -40,27 +40,32 @@ ignoreFiles = ["content/_templates/.*"]
   TocOpen = false
   ShowBreadCrumbs = true
   ShowPostNavLinks = true
-  ShowRssButtonInSectionTermList = true
-  ShowAllPagesInArchive = true
+  ShowRssButtonInSectionTermList = false
+  ShowAllPagesInArchive = false
   DateFormat = "2006-01-02"
+  hideAuthor = true
   mainSections = ["posts"]
 
   [params.label]
     text = "李翔"
     iconHeight = 26
 
+  [params.cover]
+    # 列表页不渲染封面：截图类封面会把列表撑高，也抢走标题的注意力
+    hiddenInList = true
+
   [params.assets]
     favicon = "favicon.svg"
     disableFingerprinting = false
 
   [params.footer]
-    text = "用 Hugo 构建 · 内容写在 Markdown 里"
+    text = "内容写在 Markdown 里"
 
   [params.homeInfoParams]
-    Title = "你好，我是李翔 👋"
+    Title = "你好，我是李翔"
+    eyebrow = "李翔 · 工程笔记"
+    avatar = "images/avatar.svg"
     Content = """
-<img class="avatar" src="/images/avatar.svg" alt="avatar" width="88" height="88" align="left">
-
 这里放工程笔记、架构拆解和读书随手记。多数文章来自真实踩过的坑，写完就发，不做完美主义。
 
 目前在做 **AgentOS / 本地优先的 AI 工具链**，顺手记录静态站点、macOS 和网络方面的小事。
