@@ -2,7 +2,7 @@
   "name": "blog",
   "private": true,
   "version": "1.0.0",
-  "description": "李想的个人博客：Hugo + PaperMod + Pagefind，部署到 Cloudflare",
+  "description": "李翔的个人博客：Hugo + PaperMod + Pagefind，部署到 Cloudflare",
   "scripts": {
     "dev": "hugo server -D --navigateToChanged",
     "build": "hugo --gc --minify --cleanDestinationDir --environment production --baseURL \"${HUGO_BASEURL:-http://localhost:4321/}\" && pagefind --site public --glob \"{posts/*/index.html,about/index.html}\"",

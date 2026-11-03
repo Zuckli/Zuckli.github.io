@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="340" viewBox="0 0 800 340" role="img" aria-label="一次 git push 之后的部署流水线：npm ci、Hugo、Pagefind、wrangler、边缘生效">
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "Segoe UI", sans-serif; fill: #1f2328; }
+    .title { font-size: 19px; font-weight: 700; }
+    .sub { font-size: 12.5px; fill: #6b6b6b; }
+    .box { font-size: 12px; font-weight: 600; }
+    .time { font-size: 11px; fill: #6b6b6b; }
+    .label { font-size: 10.5px; font-weight: 600; letter-spacing: .14em; }
+    .muted { fill: #6b6b6b; }
+  </style>
+
+  <rect width="800" height="340" fill="#fbfaf7"/>
+  <text x="28" y="38" class="title">一次 git push 之后发生的六件事</text>
+  <text x="28" y="60" class="sub">最近一次线上部署：24 秒。纯执行 18 秒，其中真正的构建只占 1 秒。</text>
+
+  <!-- 时间轴底座 -->
+  <rect x="28" y="86" width="744" height="4" rx="2" fill="#e5e1d8"/>
+
+  <!-- 六个步骤 -->
+  <g>
+    <rect x="28" y="108" width="112" height="76" rx="9" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="40" y="132" class="box">git push</text>
+    <text x="40" y="151" class="time">你只做这一步</text>
+    <text x="40" y="171" class="time">0s</text>
+
+    <rect x="154" y="108" width="112" height="76" rx="9" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="166" y="132" class="box">npm ci</text>
+    <text x="166" y="151" class="time">装 pagefind</text>
+    <text x="166" y="171" class="time">5s</text>
+
+    <rect x="280" y="108" width="112" height="76" rx="9" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="292" y="132" class="box">Hugo</text>
+    <text x="292" y="151" class="time">33 个页面</text>
+    <text x="292" y="171" class="time">1s</text>
+
+    <rect x="406" y="108" width="112" height="76" rx="9" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="418" y="132" class="box">Pagefind</text>
+    <text x="418" y="151" class="time">4 页进索引</text>
+    <text x="418" y="171" class="time">0.03s</text>
+
+    <rect x="532" y="108" width="112" height="76" rx="9" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="544" y="132" class="box">wrangler</text>
+    <text x="544" y="151" class="time">上传 public/</text>
+    <text x="544" y="171" class="time">5s</text>
+
+    <rect x="658" y="108" width="112" height="76" rx="9" fill="#eef6f1" stroke="#b9d8c6"/>
+    <text x="670" y="132" class="box">边缘生效</text>
+    <text x="670" y="151" class="time">300+ 节点</text>
+    <text x="670" y="171" class="time">+2s</text>
+  </g>
+
+  <!-- 步骤箭头 -->
+  <g stroke="#b9b2a3" stroke-width="1.3" fill="none">
+    <path d="M140 146 L150 146" marker-end="url(#p1)"/>
+    <path d="M266 146 L276 146" marker-end="url(#p1)"/>
+    <path d="M392 146 L402 146" marker-end="url(#p1)"/>
+    <path d="M518 146 L528 146" marker-end="url(#p1)"/>
+    <path d="M644 146 L654 146" marker-end="url(#p1)"/>
+  </g>
+
+  <text x="28" y="232" class="label muted">为什么能这么快</text>
+  <text x="28" y="256" class="sub">没有容器构建、没有前端打包、没有数据库迁移。CI 只做三件事：渲染、建索引、上传静态文件。</text>
+  <text x="28" y="280" class="sub">失败会停在对应步骤，日志直接指向出错的文件或权限——不用登服务器猜。</text>
+
+  <defs>
+    <marker id="p1" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
+      <path d="M0 0 L7 3.5 L0 7 z" fill="#b9b2a3"/>
+    </marker>
+  </defs>
+</svg>

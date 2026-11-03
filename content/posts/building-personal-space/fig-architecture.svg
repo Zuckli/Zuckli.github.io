@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-label="个人空间的四层结构：写作、构建、分发、互动，以及右侧的 GitHub 控制面">
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "Segoe UI", sans-serif; fill: #1f2328; }
+    .title { font-size: 19px; font-weight: 700; }
+    .sub { font-size: 12.5px; fill: #6b6b6b; }
+    .label { font-size: 10.5px; font-weight: 600; letter-spacing: .14em; }
+    .cardtitle { font-size: 15.5px; font-weight: 600; }
+    .desc { font-size: 11.8px; fill: #6b6b6b; }
+    .small { font-size: 10.5px; }
+    .muted { fill: #6b6b6b; }
+    .mono { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 10.5px; }
+  </style>
+
+  <rect width="800" height="600" fill="#fbfaf7"/>
+
+  <text x="30" y="40" class="title">个人空间的四层结构</text>
+  <text x="30" y="62" class="sub">一层只做一件事；任何一层都能单独换掉，而不动其他三层。</text>
+
+  <!-- 写作层 -->
+  <g>
+    <rect x="30" y="88" width="500" height="100" rx="10" fill="#ffffff" stroke="#e5e1d8"/>
+    <rect x="30" y="102" width="4" height="72" rx="2" fill="#d9772f"/>
+    <text x="48" y="110" class="label" fill="#d9772f">写作层 / SOURCE</text>
+    <text x="48" y="134" class="cardtitle">Obsidian 里写 Markdown，图片和正文同目录</text>
+    <text x="48" y="156" class="desc">不用后台、不用数据库；文件夹名就是 URL，删文章不会留下孤儿图片。</text>
+    <text x="48" y="176" class="small muted">page bundle　·　纯文本　·　git 可追溯</text>
+  </g>
+
+  <!-- 构建层 -->
+  <g>
+    <rect x="30" y="204" width="500" height="100" rx="10" fill="#ffffff" stroke="#e5e1d8"/>
+    <rect x="30" y="218" width="4" height="72" rx="2" fill="#2f6feb"/>
+    <text x="48" y="226" class="label" fill="#2f6feb">构建层 / BUILD</text>
+    <text x="48" y="250" class="cardtitle">Hugo 渲染 HTML，Pagefind 顺手建索引</text>
+    <text x="48" y="272" class="desc">38 个页面、1.5 MB 产物，本地完整构建 1.4 秒；不装 Node 也能出 HTML。</text>
+    <text x="48" y="292" class="small muted">Hugo 0.169 extended　·　5 篇文章　·　3540 词进索引</text>
+  </g>
+
+  <!-- 分发层 -->
+  <g>
+    <rect x="30" y="320" width="500" height="100" rx="10" fill="#ffffff" stroke="#e5e1d8"/>
+    <rect x="30" y="334" width="4" height="72" rx="2" fill="#2f8f5b"/>
+    <text x="48" y="342" class="label" fill="#2f8f5b">分发层 / SERVE</text>
+    <text x="48" y="366" class="cardtitle">Cloudflare Workers 把 public/ 发到边缘</text>
+    <text x="48" y="388" class="desc">静态请求不计费、不限量；自定义 404 与缓存头都是平台原生能力。</text>
+    <text x="48" y="408" class="small muted">免费带宽　·　HTTP/2 + H3　·　/ assets 一年 immutable</text>
+  </g>
+
+  <!-- 互动层 -->
+  <g>
+    <rect x="30" y="436" width="500" height="100" rx="10" fill="#ffffff" stroke="#e5e1d8"/>
+    <rect x="30" y="450" width="4" height="72" rx="2" fill="#7c5cd6"/>
+    <text x="48" y="458" class="label" fill="#7c5cd6">互动层 / ENGAGE</text>
+    <text x="48" y="482" class="cardtitle">Giscus 把评论寄存到 GitHub Discussions</text>
+    <text x="48" y="504" class="desc">页面只嵌一个 iframe；审核、删除、锁定都在 GitHub 里完成，没有独立后台。</text>
+    <text x="48" y="524" class="small muted">无 secret　·　按需创建 discussion　·　评论框跟随站点主题</text>
+  </g>
+
+  <!-- 层间箭头 -->
+  <g stroke="#c9c3b8" stroke-width="1.4" fill="none">
+    <path d="M280 189 L280 201" marker-end="url(#arrow)"/>
+    <path d="M280 305 L280 317" marker-end="url(#arrow)"/>
+    <path d="M280 421 L280 433" marker-end="url(#arrow)"/>
+  </g>
+  <defs>
+    <marker id="arrow" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto">
+      <path d="M0 0 L7 3.5 L0 7 z" fill="#c9c3b8"/>
+    </marker>
+  </defs>
+
+  <!-- 控制面 -->
+  <g>
+    <rect x="552" y="88" width="218" height="448" rx="12" fill="#f2efe7" stroke="#ddd7ca" stroke-dasharray="4 4"/>
+    <text x="572" y="118" class="label muted">控制面 / CONTROL</text>
+
+    <circle cx="578" cy="146" r="3" fill="#1f2328"/>
+    <text x="590" y="150" class="cardtitle" font-size="12.5">GitHub 仓库</text>
+    <text x="590" y="168" class="desc" font-size="11">内容、配置、主题版本全在 git 里</text>
+
+    <circle cx="578" cy="212" r="3" fill="#1f2328"/>
+    <text x="590" y="216" class="cardtitle" font-size="12.5">GitHub Actions</text>
+    <text x="590" y="234" class="desc" font-size="11">push 即构建，最近一次 24 秒</text>
+
+    <circle cx="578" cy="278" r="3" fill="#1f2328"/>
+    <text x="590" y="282" class="cardtitle" font-size="12.5">Actions Secrets</text>
+    <text x="590" y="300" class="desc" font-size="11">Cloudflare token 只存在于 CI</text>
+
+    <circle cx="578" cy="344" r="3" fill="#1f2328"/>
+    <text x="590" y="348" class="cardtitle" font-size="12.5">回滚</text>
+    <text x="590" y="366" class="desc" font-size="11">git revert 一次，就是一次部署</text>
+
+    <circle cx="578" cy="410" r="3" fill="#1f2328"/>
+    <text x="590" y="414" class="cardtitle" font-size="12.5">验收清单</text>
+    <text x="590" y="432" class="desc" font-size="11">6 条，缺一条就不算发完</text>
+
+    <line x1="572" y1="456" x2="750" y2="456" stroke="#ddd7ca"/>
+    <text x="572" y="482" class="desc" font-size="11">没有服务器要登录，</text>
+    <text x="572" y="500" class="desc" font-size="11">也没有状态要备份。</text>
+  </g>
+
+  <text x="30" y="574" class="sub">产物只有 HTML / CSS / JS 和一堆图片：没有数据库、没有常驻后端、没有被扫描的攻击面。</text>
+</svg>
