@@ -39,7 +39,7 @@ jobs:
         run: npm run build
         env:
           # 在仓库 Settings → Variables 里配 SITE_URL，例如 https://blog.yourdomain.com/
-          HUGO_BASEURL: ${{ vars.SITE_URL }}
+          HUGO_BASEURL: ${{ vars.SITE_URL || 'https://lixiang-blog.lixiang22.workers.dev/' }}
 
       - name: Deploy to Cloudflare
         uses: cloudflare/wrangler-action@v3

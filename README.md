@@ -2,6 +2,8 @@
 
 个人博客。Hugo + PaperMod + Pagefind，纯静态，部署到 Cloudflare Workers 静态资源。
 
+**线上地址：https://lixiang-blog.lixiang22.workers.dev**（workers.dev 子域，暂无自有域名）
+
 ## 技术栈
 
 | 层 | 选型 | 说明 |
@@ -54,16 +56,25 @@ hugo new content posts/文章标题/index.md
 
 ## 部署
 
-1. 推到 GitHub，仓库里建两个 secret：`CLOUDFLARE_API_TOKEN`、`CLOUDFLARE_ACCOUNT_ID`；
-2. 建一个仓库 Variable `SITE_URL`，值是你的正式地址，**结尾要带 `/`**，例如 `https://blog.example.com/`；
-3. Cloudflare 后台给域名加 `A` 记录指向 Workers 路由，或在 Worker 的 Triggers 里绑定自定义域。
-
-手动部署：
+已经跑通的路径（本机 wrangler 已用 OAuth 登录，账号 `lixiang22`）：
 
 ```bash
-export HUGO_BASEURL="https://blog.example.com/"
-npm run deploy       # 构建 + wrangler deploy
+HUGO_BASEURL="https://lixiang-blog.lixiang22.workers.dev/" npm run deploy
 ```
+
+CI 路径（推到 GitHub 后用）：
+
+1. 仓库里建两个 secret：`CLOUDFLARE_API_TOKEN`、`CLOUDFLARE_ACCOUNT_ID`；
+2. 可选：建 Variable `SITE_URL`（**结尾带 `/`**）。不配就用 workflow 里写死的 workers.dev 地址；
+3. 换自定义域名时，在 Worker 的 Settings → Domains & Routes 里 Add custom domain，DNS 由 Cloudflare 自动写。
+
+`static/_headers` 控制缓存：`/assets/*` 一年 immutable，`/pagefind/*` 一周，HTML 保持 `max-age=0, must-revalidate`。
+
+## 国内访问
+
+- 当前 `*.workers.dev` 在这台机器上可以打开，但 `cf-ray` 落在 SJC（美西），首字节约 1 秒——能访问，不快。
+- `workers.dev` 在部分国内网络（尤其移动）会被 DNS 污染 / SNI 阻断，给朋友发链接前先让对方试一次。
+- 要稳定就换自有域名绑到 Cloudflare（延迟降到 150–300ms 量级），或整体迁到境内 OSS/COS + CDN（需备案）。构建产物不变，只换上传目标。
 
 ## 启用评论（Giscus）
 
