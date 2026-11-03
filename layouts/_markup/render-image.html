@@ -1,0 +1,19 @@
+{{- /* 图片渲染钩子：给正文图片补上宽高，避免懒加载时高度塌陷。
+       SVG 交给浏览器按固有尺寸渲染（文件只有几 KB，直接 eager）。 */ -}}
+{{- $dest := .Destination -}}
+{{- $res := .Page.Resources.GetMatch $dest -}}
+{{- $w := 0 -}}
+{{- $h := 0 -}}
+{{- $isSVG := false -}}
+{{- with $res -}}
+  {{- if eq .MediaType.SubType "svg" -}}
+    {{- $isSVG = true -}}
+  {{- else -}}
+    {{- $w = .Width -}}
+    {{- $h = .Height -}}
+  {{- end -}}
+{{- end -}}
+<img src="{{ with $res }}{{ .RelPermalink }}{{ else }}{{ $dest | safeURL }}{{ end }}" alt="{{ .Text }}"
+  {{- with .Title }} title="{{ . }}"{{ end }}
+  {{- if and $w $h }} width="{{ $w }}" height="{{ $h }}"{{ end }}
+  loading="{{ if $isSVG }}eager{{ else }}lazy{{ end }}" decoding="async">

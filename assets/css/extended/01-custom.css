@@ -76,6 +76,11 @@ body {
   }
 }
 
+/* 正文图片：配合 markdown render hook 输出的 width/height，保持等比缩放 */
+.md-content img {
+  height: auto;
+}
+
 /* 代码块更柔和 */
 .post-content pre,
 .md-content pre {
