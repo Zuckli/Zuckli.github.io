@@ -97,6 +97,12 @@ CI 路径（推到 GitHub 后用）：
 
 评论区的配色跟随站点主题切换（`layouts/_partials/comments.html` 里给 iframe postMessage 同步），不依赖系统配色。
 
+使用细节：
+
+- 访客需要登录 GitHub 才能评论，评论内容就是该仓库 Discussions 里的帖子；
+- 每个页面按 `pathname` 映射一个 discussion，**第一条评论发出时才创建**，所以新文章一开始显示“0 条评论”；
+- 审核就是去 GitHub Discussions 里编辑/删除/锁定，没有额外后台。
+
 ## 已知取舍
 
 - **RSS 会带上「关于」「搜索」两个页面**：PaperMod 的 `rss.xml` 只排除 `layout: search/archives`，而搜索页用了自定义 `layout: pagefind`。要改就覆盖 `layouts/rss.xml`，不值得为这个抄一份模板。
