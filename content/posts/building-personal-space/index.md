@@ -181,7 +181,7 @@ find public -name '*.html' | wc -l
 <a hidden class="anchor" aria-hidden="true" data-pagefind-ignore href="#...">#</a>
 ```
 
-现在搜「静态」，返回 3 条结果，标题正常，关键词高亮：
+现在搜「静态」，有结果、标题正常、关键词高亮：
 
 ![站内搜索「静态」的结果页](search.png)
 
