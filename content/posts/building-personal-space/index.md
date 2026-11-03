@@ -473,4 +473,4 @@ gh run watch --exit-status
 
 ---
 
-*本站的技术栈、目录结构和已知取舍都写在 [README](https://github.com/Zuckli/lixiang-blog) 里；这篇是它的叙事版本。*
+*本站的技术栈、目录结构和已知取舍都写在仓库的 README 里；这篇是它的叙事版本。*
