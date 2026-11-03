@@ -30,12 +30,12 @@
 
     <rect x="280" y="108" width="112" height="76" rx="9" fill="#ffffff" stroke="#e5e1d8"/>
     <text x="292" y="132" class="box">Hugo</text>
-    <text x="292" y="151" class="time">33 个页面</text>
+    <text x="292" y="151" class="time">38 个页面</text>
     <text x="292" y="171" class="time">1s</text>
 
     <rect x="406" y="108" width="112" height="76" rx="9" fill="#ffffff" stroke="#e5e1d8"/>
     <text x="418" y="132" class="box">Pagefind</text>
-    <text x="418" y="151" class="time">4 页进索引</text>
+    <text x="418" y="151" class="time">5 页进索引</text>
     <text x="418" y="171" class="time">0.03s</text>
 
     <rect x="532" y="108" width="112" height="76" rx="9" fill="#ffffff" stroke="#e5e1d8"/>
