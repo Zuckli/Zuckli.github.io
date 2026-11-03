@@ -7,6 +7,15 @@
 {{- /* Pagefind：索引在 npm run build 时生成到 public/pagefind */ -}}
 <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
 <div id="pagefind-search"></div>
+
+{{- with site.Taxonomies.tags }}
+<div class="search-tags">
+  <span class="search-tags-label">常用</span>
+  {{- range first 8 .ByCount }}
+  <a href="{{ .Page.RelPermalink }}">{{ .Page.LinkTitle }}<span class="topic-count">{{ .Count }}</span></a>
+  {{- end }}
+</div>
+{{- end }}
 <script src="/pagefind/pagefind-ui.js" defer></script>
 <script>
   window.addEventListener("DOMContentLoaded", function () {

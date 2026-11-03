@@ -1,0 +1,79 @@
+{{- define "main" }}
+
+{{- partial "home_info.html" . }}
+
+{{- $posts := where site.RegularPages "Type" "in" site.Params.mainSections }}
+{{- $posts = where $posts "Params.hiddenInHomeList" "!=" true }}
+
+{{- with $posts }}
+<section class="home-section">
+  <div class="section-head">
+    <h2 class="section-label">文章<span class="section-count">{{ len $posts }} 篇</span></h2>
+    <a class="section-link" href="{{ "/posts/" | relLangURL }}">全部文章 →</a>
+  </div>
+
+  {{- $first := index . 0 }}
+  {{- $cover := false }}
+  {{- with $first.Params.cover.image }}
+    {{- with $first.Resources.GetMatch . }}{{ $cover = . }}{{ end }}
+  {{- end }}
+  <article class="feature{{ if not $cover }} feature--text{{ end }}">
+    <div class="feature-body">
+      <p class="feature-kicker"><span class="feature-no">01</span><span class="feature-flag">精选</span>{{ $first.Date.Format "2006-01-02" }} · {{ $first.ReadingTime }} 分钟阅读</p>
+      <h3 class="feature-title"><a href="{{ $first.RelPermalink }}">{{ $first.Title }}</a></h3>
+      <p class="feature-lede">{{ $first.Params.description | default ($first.Summary | plainify) }}</p>
+      {{- with $first.Params.tags }}
+      <p class="feature-tags">{{ range . }}{{ $label := . }}{{ with site.GetPage (printf "/tags/%s" .) }}{{ $label = .LinkTitle }}{{ end }}<span class="chip">{{ $label }}</span>{{ end }}</p>
+      {{- end }}
+    </div>
+    {{- with $cover }}
+    {{- $thumb := .Resize "720x" }}
+    <a class="feature-cover" href="{{ $first.RelPermalink }}" tabindex="-1" aria-hidden="true">
+      <img src="{{ $thumb.RelPermalink }}" width="{{ $thumb.Width }}" height="{{ $thumb.Height }}" alt="" loading="eager" decoding="async">
+    </a>
+    {{- end }}
+  </article>
+
+  {{- $rest := after 1 . }}
+  {{- with $rest }}
+  <ol class="index-list">
+    {{- range $i, $p := first 6 . }}
+    <li class="index-item">
+      <a href="{{ $p.RelPermalink }}">
+        <span class="index-no">{{ printf "%02d" (add $i 2) }}</span>
+        <span class="index-title">{{ $p.Title }}</span>
+        <span class="index-date">{{ $p.Date.Format "2006-01-02" }}<span class="index-rt"> · {{ $p.ReadingTime }} 分钟</span></span>
+      </a>
+    </li>
+    {{- end }}
+  </ol>
+  {{- end }}
+</section>
+{{- end }}
+
+{{- with site.Taxonomies.tags }}
+<section class="home-section">
+  <div class="section-head">
+    <h2 class="section-label">标签<span class="section-count">{{ len . }} 个</span></h2>
+    <a class="section-link" href="{{ "/tags/" | relLangURL }}">所有标签 →</a>
+  </div>
+  <div class="topic-list">
+    {{- range first 12 .ByCount }}
+    <a class="topic" href="{{ .Page.RelPermalink }}">{{ .Page.LinkTitle }}<span class="topic-count">{{ .Count }}</span></a>
+    {{- end }}
+  </div>
+</section>
+{{- end }}
+
+<section class="subscribe">
+  <div class="subscribe-copy">
+    <p class="subscribe-title">订阅</p>
+    <p class="subscribe-text">新文章会先出现在 RSS 里；也可以从 <a href="{{ "/archives/" | relLangURL }}">归档</a> 按时间翻。</p>
+  </div>
+  <div class="subscribe-actions">
+    <a class="subscribe-btn subscribe-btn--primary" href="{{ "index.xml" | relURL }}">通过 RSS 订阅</a>
+    <a class="subscribe-link" href="{{ "/archives/" | relLangURL }}">按时间浏览归档 →</a>
+  </div>
+</section>
+
+{{- end }}

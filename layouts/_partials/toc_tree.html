@@ -1,0 +1,15 @@
+{{- /* 递归输出目录树；跳过 Fragments 里的空根节点 */ -}}
+{{- with . }}
+<ul class="toc-list">
+  {{- range . }}
+  {{- if .ID }}
+  <li class="toc-item">
+    <a href="#{{ .ID }}">{{ .Title | plainify }}</a>
+    {{- with .Headings }}{{ partial "toc_tree.html" . }}{{ end }}
+  </li>
+  {{- else }}
+  {{- with .Headings }}{{ partial "toc_tree.html" . }}{{ end }}
+  {{- end }}
+  {{- end }}
+</ul>
+{{- end }}

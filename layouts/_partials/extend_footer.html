@@ -1,0 +1,185 @@
+{{- /* 全站交互：阅读进度、目录高亮、复制链接、图片预览、搜索快捷键 */ -}}
+<script>
+  (() => {
+    "use strict";
+    const d = document;
+    const content = d.querySelector(".post-content");
+
+    /* ---------- 阅读进度 + 目录高亮 ---------- */
+    if (content) {
+      const bar = d.createElement("div");
+      bar.className = "reading-progress";
+      bar.setAttribute("aria-hidden", "true");
+      bar.innerHTML = "<span></span>";
+      d.body.appendChild(bar);
+      const fill = bar.firstElementChild;
+
+      const rail = d.querySelector(".toc-rail");
+      let heads = [];
+      let contentStart = 0;
+      let contentSpan = 1;
+      let currentLink = null;
+
+      const measure = () => {
+        const rect = content.getBoundingClientRect();
+        contentStart = rect.top + window.scrollY - 100;
+        contentSpan = Math.max(rect.height - window.innerHeight + 200, 1);
+        heads = [];
+        if (rail) {
+          rail.querySelectorAll('a[href^="#"]').forEach((a) => {
+            const id = decodeURIComponent(a.getAttribute("href").slice(1));
+            const h = d.getElementById(id);
+            if (h) heads.push({ top: h.getBoundingClientRect().top + window.scrollY, link: a });
+          });
+          heads.sort((x, y) => x.top - y.top);
+        }
+      };
+
+      const update = () => {
+        const p = Math.min(Math.max((window.scrollY - contentStart) / contentSpan, 0), 1);
+        fill.style.transform = "scaleX(" + p.toFixed(4) + ")";
+        bar.classList.toggle("is-active", p > 0.004 && p < 0.996);
+
+        if (!heads.length) return;
+        const line = window.scrollY + 120;
+        let active = null;
+        for (const h of heads) {
+          if (h.top <= line) active = h.link;
+        }
+        if (active !== currentLink) {
+          if (currentLink) currentLink.classList.remove("is-active");
+          currentLink = active;
+          if (active) active.classList.add("is-active");
+        }
+      };
+
+      let frame = 0;
+      const onScroll = () => {
+        if (frame) return;
+        frame = 1;
+        update();
+        frame = 0;
+      };
+
+      addEventListener("scroll", onScroll, { passive: true });
+      addEventListener("resize", () => {
+        measure();
+        update();
+      });
+      measure();
+      update();
+    }
+
+    /* ---------- 文章操作 ---------- */
+    d.querySelectorAll("[data-copy-link]").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const label = btn.textContent;
+        let ok = false;
+        try {
+          await navigator.clipboard.writeText(location.href);
+          ok = true;
+        } catch (e) {
+          // 剪贴板 API 不可用（非安全上下文 / 权限被拒）时退回 execCommand
+          const ta = d.createElement("textarea");
+          ta.value = location.href;
+          ta.setAttribute("readonly", "");
+          ta.style.position = "fixed";
+          ta.style.opacity = "0";
+          d.body.appendChild(ta);
+          ta.select();
+          try {
+            ok = d.execCommand("copy");
+          } catch (err) {
+            ok = false;
+          }
+          ta.remove();
+        }
+        btn.textContent = ok ? "已复制" : "复制失败";
+        setTimeout(() => (btn.textContent = label), 1600);
+      });
+    });
+
+    d.querySelectorAll("[data-to-top]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const smooth = !matchMedia("(prefers-reduced-motion: reduce)").matches;
+        window.scrollTo({ top: 0, behavior: smooth ? "smooth" : "auto" });
+      });
+    });
+
+    /* ---------- 正文图片放大 ---------- */
+    if (content) {
+      const imgs = [...content.querySelectorAll("img")].filter((i) => !i.closest("a"));
+      if (imgs.length) {
+        const box = d.createElement("div");
+        box.className = "lightbox";
+        box.setAttribute("role", "dialog");
+        box.setAttribute("aria-modal", "true");
+        box.setAttribute("aria-label", "图片预览");
+        box.innerHTML =
+          '<button type="button" class="lightbox-close" aria-label="关闭预览">×</button><img alt="">';
+        d.body.appendChild(box);
+        const pic = box.querySelector("img");
+        const closeBtn = box.querySelector("button");
+        let opener = null;
+        const close = () => {
+          box.classList.remove("is-open");
+          d.documentElement.classList.remove("no-scroll");
+          if (opener) opener.focus();
+          opener = null;
+        };
+        const open = (img) => {
+          pic.src = img.currentSrc || img.src;
+          pic.alt = img.alt || "";
+          box.classList.add("is-open");
+          d.documentElement.classList.add("no-scroll");
+          opener = img;
+          closeBtn.focus();
+        };
+        imgs.forEach((img) => {
+          img.classList.add("zoomable");
+          img.tabIndex = 0;
+          img.setAttribute("role", "button");
+          img.setAttribute("aria-label", "放大图片" + (img.alt ? "：" + img.alt : ""));
+          img.addEventListener("click", () => open(img));
+          img.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              open(img);
+            }
+          });
+        });
+        box.addEventListener("click", (e) => {
+          if (e.target !== pic) close();
+        });
+        d.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && box.classList.contains("is-open")) close();
+        });
+      }
+    }
+
+    /* ---------- 搜索入口 ---------- */
+    const typing = (el) =>
+      el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.isContentEditable);
+    d.addEventListener("keydown", (e) => {
+      if (typing(e.target) || e.altKey) return;
+      const cmdK = (e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k";
+      if (cmdK || e.key === "/") {
+        e.preventDefault();
+        location.href = "/search/";
+      }
+    });
+
+    if (location.pathname.indexOf("/search") === 0) {
+      let tries = 0;
+      const timer = setInterval(() => {
+        const input = d.querySelector(".pagefind-ui__search-input");
+        if (input) {
+          clearInterval(timer);
+          if (matchMedia("(pointer: fine)").matches) input.focus();
+        } else if (++tries > 40) {
+          clearInterval(timer);
+        }
+      }, 100);
+    }
+  })();
+</script>

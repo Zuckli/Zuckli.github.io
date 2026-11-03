@@ -25,26 +25,35 @@ content/
   about.md  archives.md  search.md
   tags/_index.md  categories/_index.md   # 分类页标题（默认是英文 Tags/Categories）
 layouts/
+  home.html                    # 首页：简介 + 精选 + 编号索引 + 标签 + 订阅
+  _partials/home_info.html     # 首页简介：头像 + 文字的网格结构
+  _partials/toc.html           # 目录：桌面右侧固定栏 + 移动端折叠块
+  _partials/toc_tree.html      # 目录树递归（遍历 .Fragments.Headings）
+  _partials/extend_post_content.html  # 文末：完、复制链接、相关文章
+  _partials/extend_footer.html # 阅读进度、目录高亮、图片放大、⌘K
   _partials/extend_head.html   # KaTeX 注入
   _partials/comments.html      # Giscus
-  _partials/home_info.html     # 首页简介：头像 + 文字的网格结构
   _partials/breadcrumbs.html   # 面包屑（文本分隔符，不带悬空箭头）
   _partials/post_nav_links.html # 上一篇 / 下一篇
-  search/pagefind.html         # 搜索页
+  search/pagefind.html         # 搜索页 + 常用标签
   _shortcodes/hugo-version.html
  404.html
-assets/css/extended/01-custom.css   # 设计变量、排版、列表、代码块、移动端
+assets/css/extended/01-custom.css   # 设计变量、基础排版、列表、代码块
+assets/css/extended/02-editorial.css # 首页结构、目录栏、文末、阅读工具、打印
 static/images/avatar.svg  static/favicon.svg
 hugo.toml  wrangler.jsonc  package.json
 ```
 
-## 样式约定
+## 样式与交互约定
 
 - 颜色只有中性灰阶 + 一个强调色（`--accent`，墨蓝），浅色/暗色各一套变量，改色只改 `:root`。
 - 层次用**细线 + 间距**建立：列表是带分隔线的行，不是卡片；页头/页脚/正文共用 704px 内容宽度。
 - 元信息（日期、阅读时长、面包屑、页脚）统一等宽字体 + 等宽数字。
 - 正文图片必须带宽高（`layouts/_markup/render-image.html`），避免懒加载高度塌陷。
-- 文章封面只在正文页出现，列表页不放大图。
+- 文章封面只在正文页出现，列表页不放大图（`params.cover.hiddenInList`）。
+- 目录只渲染一次数据：桌面固定栏（≥1200px）和移动端折叠块共用一个递归 partial，避免重复 `id="TableOfContents"`。
+- 正文里的交互（进度条、目录高亮、图片放大、复制链接）全部在两处兜底：`prefers-reduced-motion` 与剪贴板不可用。
+- 搜索快捷键：`⌘K` / `Ctrl+K` / `/`；`/search/?q=` 可直接带查询进入。
 
 ## 本地开发
 

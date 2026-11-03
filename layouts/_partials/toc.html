@@ -1,0 +1,18 @@
+{{- /* 目录：桌面端固定在正文右侧，移动端保留可折叠块 */ -}}
+{{- $heads := .Fragments.Headings -}}
+{{- if and $heads (not (index $heads 0).ID) -}}
+  {{- $heads = (index $heads 0).Headings -}}
+{{- end -}}
+{{- if $heads }}
+<aside class="toc-rail" aria-label="文章目录">
+  <p class="toc-rail-label">目录</p>
+  {{- partial "toc_tree.html" $heads }}
+</aside>
+
+<details class="toc toc-inline" {{ if .Param "TocOpen" }}open{{ end }}>
+  <summary><span class="title">目录</span></summary>
+  <div class="inner">
+    {{- partial "toc_tree.html" $heads }}
+  </div>
+</details>
+{{- end }}

@@ -1,0 +1,42 @@
+{{- /* 正文结束后的收尾：完、文章操作、相关文章 */ -}}
+{{- if eq .Type "posts" }}
+<div class="post-end" aria-hidden="true"><span>完</span></div>
+
+<div class="post-actions">
+  <button type="button" class="post-action" data-copy-link>复制链接</button>
+  <a class="post-action" href="{{ "index.xml" | relURL }}">RSS 订阅</a>
+  <button type="button" class="post-action" data-to-top>回到顶部</button>
+</div>
+
+{{- $tags := .Params.tags | default slice }}
+{{- $cands := where site.RegularPages "Type" "in" site.Params.mainSections }}
+{{- $siblings := slice }}
+{{- with $cands.Next . }}{{ $siblings = $siblings | append .Permalink }}{{ end }}
+{{- with $cands.Prev . }}{{ $siblings = $siblings | append .Permalink }}{{ end }}
+{{- $scored := slice }}
+{{- range $cands }}
+  {{- if and (ne .Permalink $.Permalink) (not (in $siblings .Permalink)) }}
+    {{- $n := 0 }}
+    {{- range .Params.tags }}
+      {{- if in $tags . }}{{ $n = add $n 1 }}{{ end }}
+    {{- end }}
+    {{- if gt $n 0 }}{{ $scored = $scored | append (dict "page" . "n" $n) }}{{ end }}
+  {{- end }}
+{{- end }}
+{{- with first 2 (sort $scored "n" "desc") }}
+<section class="related">
+  <div class="section-head">
+    <h2 class="section-label">相关文章</h2>
+  </div>
+  <div class="related-grid">
+    {{- range . }}
+    {{- $p := .page }}
+    <a class="related-card" href="{{ $p.RelPermalink }}">
+      <span class="related-meta">{{ $p.Date.Format "2006-01-02" }} · {{ $p.ReadingTime }} 分钟</span>
+      <span class="related-title">{{ $p.Title }}</span>
+    </a>
+    {{- end }}
+  </div>
+</section>
+{{- end }}
+{{- end }}
