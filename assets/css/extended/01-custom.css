@@ -1005,6 +1005,10 @@ details.toc a:hover {
 }
 
 /* 404 搜索框 */
+.notfound-search {
+  margin-top: 22px;
+}
+
 .notfound-search input {
   width: 100%;
   max-width: 320px;
