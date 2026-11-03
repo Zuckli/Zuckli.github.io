@@ -6,6 +6,9 @@ theme = "PaperMod"
 enableRobotsTXT = true
 hasCJKLanguage = true
 
+# Obsidian 模板目录，不参与 Hugo 构建
+ignoreFiles = ["content/_templates/.*"]
+
 [pagination]
   pagerSize = 10
 
@@ -66,10 +69,10 @@ hasCJKLanguage = true
   # 评论：在 GitHub 上开好 Discussions 后，把 repoID / categoryID 填进来即可生效
   [params.comments]
     [params.comments.giscus]
-      repo = ""
-      repoID = ""
-      category = "Announcements"
-      categoryID = ""
+      repo = "Zuckli/blog-comments"
+      repoID = "R_kgDOVhOBJw"
+      category = "General"
+      categoryID = "DIC_kwDOVhOBJ84DKSG9"
       mapping = "pathname"
       lang = "zh-CN"
 

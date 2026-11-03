@@ -78,18 +78,24 @@ CI 路径（推到 GitHub 后用）：
 
 ## 启用评论（Giscus）
 
-1. 在 GitHub 上建一个公开仓库（例如 `blog-comments`），开启 Discussions；
-2. 安装 [giscus app](https://github.com/apps/giscus) 并授权该仓库；
-3. 打开 [giscus.app](https://giscus.app)，填仓库名，复制生成的 `data-repo-id` 和 `data-category-id`；
-4. 填进 `hugo.toml`：
+**已配置完成**：评论仓库是 [Zuckli/blog-comments](https://github.com/Zuckli/blog-comments)（公开，已开 Discussions），分类用 `General`（Open 类型，访客也能新建 discussion），giscus app 已安装在该仓库上。`hugo.toml` 里存的是：
 
 ```toml
 [params.comments.giscus]
-  repo = "你的用户名/blog-comments"
-  repoID = "R_xxxxxxx"
-  category = "Announcements"
-  categoryID = "DIC_xxxxxxx"
+  repo = "Zuckli/blog-comments"
+  repoID = "R_kgDOVhOBJw"
+  category = "General"
+  categoryID = "DIC_kwDOVhOBJ84DKSG9"
 ```
+
+换成别的仓库时：
+
+1. 在 GitHub 上建一个公开仓库，开启 Discussions（`gh api -X PATCH repos/<owner>/<repo> -f has_discussions=true`）；
+2. 安装 [giscus app](https://github.com/apps/giscus) 并授权该仓库；
+3. 用 GraphQL 取 id：`gh api graphql -f query='{repository(owner:"<owner>",name:"<repo>"){id discussionCategories(first:20){nodes{id name}}}}'`；
+4. 填进上面的配置。
+
+评论区的配色跟随站点主题切换（`layouts/_partials/comments.html` 里给 iframe postMessage 同步），不依赖系统配色。
 
 ## 已知取舍
 

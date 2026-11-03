@@ -19,6 +19,30 @@
       async>
     </script>
   </div>
+  <script>
+    // 让 giscus 跟随站点的手动主题切换（它默认只看系统配色）
+    (() => {
+      const isDark = () => document.documentElement.dataset.theme === "dark";
+      let last = null;
+      const push = (force) => {
+        const theme = isDark() ? "dark" : "light";
+        if (!force && theme === last) return;
+        last = theme;
+        const f = document.querySelector("iframe.giscus-frame");
+        if (f && f.contentWindow) {
+          f.contentWindow.postMessage({ giscus: { setConfig: { theme } } }, "https://giscus.app");
+        }
+      };
+      new MutationObserver(() => push(false)).observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ["data-theme"],
+      });
+      // giscus 加载完成会 postMessage，用它当"iframe 已就绪"的信号同步一次
+      window.addEventListener("message", (e) => {
+        if (e.origin === "https://giscus.app" && last === null) push(true);
+      });
+    })();
+  </script>
   {{- else -}}
   <div class="comments comments--unconfigured">
     <p>评论区还没开通。想聊这篇的话，可以先在 <a href="https://github.com/Zuckli" target="_blank" rel="noopener">GitHub</a> 上找我。</p>
