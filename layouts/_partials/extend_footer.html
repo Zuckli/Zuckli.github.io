@@ -49,7 +49,14 @@
         if (active !== currentLink) {
           if (currentLink) currentLink.classList.remove("is-active");
           currentLink = active;
-          if (active) active.classList.add("is-active");
+          if (active) {
+            active.classList.add("is-active");
+            // 目录比视口高时，让高亮项留在目录栏可视范围内
+            const box = rail.getBoundingClientRect();
+            const item = active.getBoundingClientRect();
+            if (item.top < box.top + 8) rail.scrollTop -= box.top + 8 - item.top;
+            else if (item.bottom > box.bottom - 8) rail.scrollTop += item.bottom - box.bottom + 8;
+          }
         }
       };
 
