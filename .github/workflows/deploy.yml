@@ -15,6 +15,13 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.pages.outputs.page_url }}
     steps:
       - uses: actions/checkout@v5
         with:
@@ -35,13 +42,28 @@ jobs:
 
       - run: npm ci
 
+      # canonical / sitemap / RSS 全部基于 baseURL：GitHub Pages 是主站，
+      # workers.dev 那份只是镜像，所以两边用同一个 baseURL 构建。
       - name: Build
         run: npm run build
         env:
-          # 在仓库 Settings → Variables 里配 SITE_URL，例如 https://blog.yourdomain.com/
-          HUGO_BASEURL: ${{ vars.SITE_URL || 'https://lixiang-blog.lixiang22.workers.dev/' }}
+          HUGO_BASEURL: ${{ vars.SITE_URL || 'https://zuckli.github.io/' }}
 
-      - name: Deploy to Cloudflare
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: public
+
+      - name: Deploy to GitHub Pages
+        id: pages
+        uses: actions/deploy-pages@v4
+
+      # 镜像部署：失败不影响主站发布（不写 if: secrets.*，step 级 if 上下文里读不到 secrets）
+      - name: Deploy mirror to Cloudflare
+        continue-on-error: true
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}

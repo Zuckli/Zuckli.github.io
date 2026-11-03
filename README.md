@@ -1,8 +1,9 @@
 # 李翔 · 工程笔记
 
-个人博客。Hugo + PaperMod + Pagefind，纯静态，部署到 Cloudflare Workers 静态资源。
+个人博客。Hugo + PaperMod + Pagefind，纯静态，主站托管在 GitHub Pages，同一次构建再镜像到 Cloudflare Workers。
 
-**线上地址：https://lixiang-blog.lixiang22.workers.dev**（workers.dev 子域，暂无自有域名）
+**线上地址：https://zuckli.github.io**（主站）
+**镜像：https://lixiang-blog.lixiang22.workers.dev**（同一份产物，`canonical` 指向主站）
 
 ## 技术栈
 
@@ -13,7 +14,7 @@
 | 公式 | KaTeX 0.19.1 | 只在 `math: true` 的文章里加载，版本锁死 + SRI |
 | 搜索 | Pagefind 1.6 | 构建后生成静态索引，无后端 |
 | 评论 | Giscus（GitHub Discussions） | 未配置时显示占位提示，不加载第三方脚本 |
-| 托管 | Cloudflare Workers 静态资源 | 免费、无限带宽，`404.html` 直接生效 |
+| 托管 | GitHub Pages（主）+ Cloudflare Workers（镜像） | Pages 免费、根路径干净、自带 HTTPS；Workers 保留为备用入口 |
 | CI | GitHub Actions | push 到 main 自动构建 + 部署 |
 
 ## 目录
@@ -56,23 +57,25 @@ hugo new content posts/文章标题/index.md
 
 ## 部署
 
-已经跑通的路径（本机 wrangler 已用 OAuth 登录，账号 `lixiang22`）：
+推到 `main` 即发布，`.github/workflows/deploy.yml` 一个 job 里做两件事：
+
+1. `npm run build`（`HUGO_BASEURL` 由 Variable `SITE_URL` 决定，缺省 `https://zuckli.github.io/`）；
+2. `actions/deploy-pages` 发到 GitHub Pages（主站），再用 `wrangler-action` 镜像到 Cloudflare Workers（`continue-on-error`，镜像挂了不影响主站）。
+
+仓库名必须是 `<用户名>.github.io`（这里是 `Zuckli.github.io`），站点才会挂在**根路径** `https://zuckli.github.io/`；换名字会变成 `/<仓库名>/` 子路径，`hugo.toml` 的 `baseURL` 也得跟着带子路径。仓库必须是 **public**：免费账号的 Pages 不支持私有仓库（要 Pro）。
+
+本地手动部署镜像（本机 wrangler 已用 OAuth 登录，账号 `lixiang22`）：
 
 ```bash
-HUGO_BASEURL="https://lixiang-blog.lixiang22.workers.dev/" npm run deploy
+HUGO_BASEURL="https://zuckli.github.io/" npm run deploy
 ```
 
-CI 路径（推到 GitHub 后用）：
-
-1. 仓库里建两个 secret：`CLOUDFLARE_API_TOKEN`、`CLOUDFLARE_ACCOUNT_ID`；
-2. 可选：建 Variable `SITE_URL`（**结尾带 `/`**）。不配就用 workflow 里写死的 workers.dev 地址；
-3. 换自定义域名时，在 Worker 的 Settings → Domains & Routes 里 Add custom domain，DNS 由 Cloudflare 自动写。
-
-`static/_headers` 控制缓存：`/assets/*` 一年 immutable，`/pagefind/*` 一周，HTML 保持 `max-age=0, must-revalidate`。
+`static/_headers` 只对 Cloudflare 那份生效：`/assets/*` 一年 immutable，`/pagefind/*` 一周，HTML 保持 `max-age=0, must-revalidate`。GitHub Pages 不认这个文件（会原样当静态文件返回，无副作用）。
 
 ## 国内访问
 
-- 当前 `*.workers.dev` 在这台机器上可以打开，但 `cf-ray` 落在 SJC（美西），首字节约 1 秒——能访问，不快。
+- `github.io` 是主站，但它在国内的可达性不稳定（部分运营商 DNS 污染 / 阻断 GitHub 相关域），没自有域名时这是最现实的短板。
+- `*.workers.dev` 在这台机器上可以打开，但 `cf-ray` 落在 SJC（美西），首字节约 1 秒——能访问，不快。镜像就是为这条退路留的。
 - `workers.dev` 在部分国内网络（尤其移动）会被 DNS 污染 / SNI 阻断，给朋友发链接前先让对方试一次。
 - 要稳定就换自有域名绑到 Cloudflare（延迟降到 150–300ms 量级），或整体迁到境内 OSS/COS + CDN（需备案）。构建产物不变，只换上传目标。
 
