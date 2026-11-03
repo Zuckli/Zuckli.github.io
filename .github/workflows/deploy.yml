@@ -41,6 +41,16 @@ jobs:
           # 在仓库 Settings → Variables 里配 SITE_URL，例如 https://blog.yourdomain.com/
           HUGO_BASEURL: ${{ vars.SITE_URL || 'https://lixiang-blog.lixiang22.workers.dev/' }}
 
+      - name: Verify Cloudflare token
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          echo "token length: ${#CF_TOKEN}"
+          curl -sS -o /tmp/verify.json -w "verify http %{http_code}\n" \
+            -H "Authorization: Bearer $CF_TOKEN" \
+            https://api.cloudflare.com/client/v4/user/tokens/verify
+          cat /tmp/verify.json; echo
+
       - name: Deploy to Cloudflare
         uses: cloudflare/wrangler-action@v3
         with:
