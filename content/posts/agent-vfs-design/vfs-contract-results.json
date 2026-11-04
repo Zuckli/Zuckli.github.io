@@ -1,0 +1,17 @@
+{
+  "python": "3.9.6",
+  "fsspec": "2025.10.0",
+  "same_tool_same_output": true,
+  "local": {
+    "report": "total=30.00",
+    "input_write_rejected": true,
+    "unbound_read_rejected": true,
+    "raw_backend_bypasses_policy": true
+  },
+  "memory": {
+    "report": "total=30.00",
+    "input_write_rejected": true,
+    "unbound_read_rejected": true,
+    "raw_backend_bypasses_policy": true
+  }
+}
