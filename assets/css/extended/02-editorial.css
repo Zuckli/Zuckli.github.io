@@ -158,7 +158,7 @@
 
 .index-item a {
   display: grid;
-  grid-template-columns: 38px minmax(0, 1fr) 128px;
+  grid-template-columns: 38px minmax(0, 1fr) 156px;
   gap: 16px;
   align-items: baseline;
   padding: 15px 0;
@@ -192,6 +192,7 @@
   font-size: 11.5px;
   text-align: right;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 
 .index-item a:hover .index-no,
@@ -229,6 +230,110 @@
   color: var(--tertiary);
   font-family: var(--font-mono);
   font-size: 10.5px;
+}
+
+/* 系列卡片：首页与 /posts/ 共用 */
+.series-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  padding-top: 16px;
+}
+
+.series-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 20px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+/* 只有一个系列时占满整行，别留半边空白 */
+.series-card:only-child {
+  grid-column: 1 / -1;
+}
+
+.series-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.series-card-title {
+  margin: 0;
+  color: var(--primary);
+  font-size: 15.5px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.series-card-meta {
+  flex: none;
+  color: var(--secondary);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.series-summary {
+  margin: 0;
+  color: var(--secondary);
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.series-card-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.series-card-list li + li {
+  border-top: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
+}
+
+.series-card-list a {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 8px 0;
+  text-decoration: none;
+}
+
+.series-card-no {
+  flex: none;
+  width: 18px;
+  color: var(--tertiary);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.series-card-t {
+  color: var(--primary);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.series-card-list a:hover .series-card-t {
+  color: var(--accent);
+}
+
+.series-card-more {
+  margin-top: auto;
+  color: var(--secondary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-decoration: none;
+}
+
+.series-card-more:hover {
+  color: var(--accent);
 }
 
 /* 订阅 */
@@ -745,6 +850,10 @@ kbd {
 /* ---------- 8. 移动端 ---------- */
 
 @media (max-width: 768px) {
+  .series-cards {
+    grid-template-columns: 1fr;
+  }
+
   .feature {
     grid-template-columns: 1fr;
     gap: 18px;

@@ -1,0 +1,79 @@
+{{- /* 系列分组：把文章按 frontmatter 的 series 聚合成卡片，自带区块标题。
+       参数：
+         pages （页面集合，必填）
+         mode  （home = 每个系列最多 3 篇；index = 全列出；默认 index）
+         link  （可选 dict：href / text，渲染成区块右侧的链接） */ -}}
+{{- $pages := .pages -}}
+{{- $mode := .mode | default "index" -}}
+{{- $link := .link | default dict -}}
+{{- $limit := 3 -}}
+{{- if eq $mode "index" }}{{ $limit = 200 }}{{ end -}}
+
+{{- $buckets := dict -}}
+{{- range $pages -}}
+  {{- $p := . -}}
+  {{- with $p.Params.series -}}
+    {{- range . -}}
+      {{- $name := . -}}
+      {{- $cur := index $buckets $name | default slice -}}
+      {{- $buckets = merge $buckets (dict $name ($cur | append (dict "p" $p "o" ($p.Params.series_order | default 99)))) -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $cards := slice -}}
+{{- range $name, $members := $buckets -}}
+  {{- $ms := sort $members "o" "asc" -}}
+  {{- $latest := 0 -}}
+  {{- $latestDate := "" -}}
+  {{- range $ms -}}
+    {{- if gt .p.Date.Unix $latest -}}
+      {{- $latest = .p.Date.Unix -}}
+      {{- $latestDate = .p.Date.Format "2006-01-02" -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $summary := "" -}}
+  {{- range hugo.Data.series -}}
+    {{- if eq .name $name }}{{ $summary = .summary | default "" }}{{ end -}}
+  {{- end -}}
+  {{- $cards = $cards | append (dict "name" $name "members" $ms "latest" $latest "latestDate" $latestDate "summary" $summary) -}}
+{{- end -}}
+{{- $cards = sort $cards "latest" "desc" -}}
+
+{{- if $cards -}}
+<section class="home-section" id="series">
+  <div class="section-head">
+    <h2 class="section-label">系列<span class="section-count">{{ len $cards }} 个</span></h2>
+    {{- with $link.href }}
+    <a class="section-link" href="{{ . }}">{{ $link.text }}</a>
+    {{- end }}
+  </div>
+  <div class="series-cards">
+    {{- range $cards }}
+    {{- $n := len .members }}
+    <article class="series-card">
+      <header class="series-card-head">
+        <h3 class="series-card-title">{{ .name }}</h3>
+        <span class="series-card-meta">{{ $n }} 篇 · 更新 {{ .latestDate }}</span>
+      </header>
+      {{- with .summary }}
+      <p class="series-summary">{{ . }}</p>
+      {{- end }}
+      <ol class="series-card-list">
+        {{- range $i, $m := first $limit .members }}
+        <li>
+          <a href="{{ $m.p.RelPermalink }}">
+            <span class="series-card-no">{{ printf "%02d" (add $i 1) }}</span>
+            <span class="series-card-t">{{ $m.p.Title }}</span>
+          </a>
+        </li>
+        {{- end }}
+      </ol>
+      {{- if and (eq $mode "home") (gt $n $limit) }}
+      <a class="series-card-more" href="{{ "/posts/#series" | relLangURL }}">还有 {{ sub $n $limit }} 篇 →</a>
+      {{- end }}
+    </article>
+    {{- end }}
+  </div>
+</section>
+{{- end -}}

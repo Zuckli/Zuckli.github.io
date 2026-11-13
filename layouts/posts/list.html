@@ -1,0 +1,69 @@
+{{- define "main" }}
+
+{{- if not .IsHome | and .Title }}
+<header class="page-header">
+  {{- partial "breadcrumbs.html" . }}
+  <h1>{{ .Title }}</h1>
+  {{- if .Description }}
+  <div class="post-description">
+    {{ .Description | markdownify }}
+  </div>
+  {{- end }}
+</header>
+{{- end }}
+
+{{- if .Content }}
+<div class="post-content md-content">
+  {{- partial "anchored_headings.html" .Content -}}
+</div>
+{{- end }}
+
+{{- $all := where site.RegularPages "Type" "in" site.Params.mainSections -}}
+{{- $all = where $all "Params.hiddenInHomeList" "!=" true -}}
+{{- $grouped := slice -}}
+{{- $ungrouped := slice -}}
+{{- range $all -}}
+  {{- if .Params.series -}}{{ $grouped = $grouped | append . }}{{- else -}}{{ $ungrouped = $ungrouped | append . }}{{- end -}}
+{{- end -}}
+
+{{- with $grouped }}
+{{- partial "series_groups.html" (dict "pages" $grouped "mode" "index" "link" (dict "href" ("/archives/" | relLangURL) "text" "按时间归档 →")) }}
+{{- end }}
+
+{{- $paginator := .Paginate $ungrouped -}}
+
+{{- with $paginator.Pages }}
+<section class="home-section">
+  <div class="section-head">
+    <h2 class="section-label">单篇与随笔<span class="section-count">{{ len $ungrouped }} 篇 · 最新在前</span></h2>
+  </div>
+  <ol class="index-list">
+    {{- $offset := 0 -}}
+    {{- if gt $paginator.PageNumber 1 }}{{ $offset = mul (sub $paginator.PageNumber 1) $paginator.PagerSize }}{{ end -}}
+    {{- range $i, $p := . }}
+    <li class="index-item">
+      <a href="{{ $p.RelPermalink }}">
+        <span class="index-no">{{ printf "%02d" (add (add $i $offset) 1) }}</span>
+        <span class="index-title">{{ $p.Title }}</span>
+        <span class="index-date">{{ $p.Date.Format "2006-01-02" }}<span class="index-rt"> · {{ if gt $p.ReadingTime 0 }}{{ $p.ReadingTime }} 分钟{{ else }}少于 1 分钟{{ end }}</span></span>
+      </a>
+    </li>
+    {{- end }}
+  </ol>
+</section>
+{{- end }}
+
+{{- if gt $paginator.TotalPages 1 }}
+<footer class="page-footer">
+  <nav class="pagination">
+    {{- if $paginator.HasPrev }}
+    <a class="prev" href="{{ $paginator.Prev.URL | absURL }}">«&nbsp;较新&nbsp;</a>
+    {{- end }}
+    {{- if $paginator.HasNext }}
+    <a class="next" href="{{ $paginator.Next.URL | absURL }}">较早&nbsp;»</a>
+    {{- end }}
+  </nav>
+</footer>
+{{- end }}
+
+{{- end }}{{/* end main */}}
