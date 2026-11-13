@@ -1,5 +1,6 @@
-{{- /* 正文结束后的收尾：完、文章操作、相关文章 */ -}}
+{{- /* 正文结束后的收尾：系列导航、完、文章操作、相关文章 */ -}}
 {{- if eq .Type "posts" }}
+{{- partial "series_nav.html" . }}
 <div class="post-end" aria-hidden="true"><span>完</span></div>
 
 <div class="post-actions">

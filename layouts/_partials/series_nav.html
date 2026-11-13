@@ -1,0 +1,35 @@
+{{- /* 系列导航：frontmatter 里 series: ["系列名"] + series_order: N。
+       同系列按 series_order 升序；只有一篇时整块不渲染。 */ -}}
+{{- $name := "" -}}
+{{- with .Params.series }}{{ $name = index . 0 }}{{ end -}}
+{{- if $name -}}
+  {{- $members := slice -}}
+  {{- range where site.RegularPages "Type" "in" site.Params.mainSections -}}
+    {{- if in (.Params.series | default slice) $name -}}
+      {{- $members = $members | append (dict "p" . "o" (.Params.series_order | default 99)) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $members = sort $members "o" "asc" -}}
+  {{- if gt (len $members) 1 -}}
+  {{- $idx := 0 -}}
+  {{- range $i, $m := $members }}{{ if eq $m.p.Permalink $.Permalink }}{{ $idx = add $i 1 }}{{ end }}{{ end -}}
+  <section class="series" aria-label="系列：{{ $name }}">
+    <div class="section-head">
+      <h2 class="section-label">系列 · {{ $name }}</h2>
+      <span class="series-count">第 {{ $idx }} 篇 / 共 {{ len $members }} 篇</span>
+    </div>
+    <ol class="series-list">
+      {{- range $i, $m := $members }}
+      {{- $cur := eq $m.p.Permalink $.Permalink }}
+      <li class="series-item{{ if $cur }} is-current{{ end }}">
+        <a href="{{ $m.p.RelPermalink }}">
+          <span class="series-num">{{ printf "%02d" (add $i 1) }}</span>
+          <span class="series-title">{{ $m.p.Title }}</span>
+          {{- if $cur }}<span class="series-now">正在读</span>{{ end }}
+        </a>
+      </li>
+      {{- end }}
+    </ol>
+  </section>
+  {{- end -}}
+{{- end -}}
