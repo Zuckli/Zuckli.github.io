@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="430" viewBox="0 0 800 430" role="img" aria-label="工具暴露度五档：direct、model-only、codemode、deferred、hidden 在模型声明与脚本可调用两个维度上的差别">
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "Segoe UI", sans-serif; fill: #1f2328; }
+    .title { font-size: 19px; font-weight: 700; }
+    .sub { font-size: 12.5px; fill: #6b6b6b; }
+    .h { font-size: 10.6px; font-weight: 600; fill: #6b6b6b; letter-spacing: .08em; }
+    .mono { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 11.4px; font-weight: 600; }
+    .cell { font-size: 11.4px; fill: #3d3d3d; }
+    .yes { font-size: 11.4px; fill: #2f8a5b; font-weight: 600; }
+    .no { font-size: 11.4px; fill: #9a9a9a; }
+    .note { font-size: 11.4px; fill: #6b6b6b; }
+  </style>
+  <rect width="800" height="430" fill="#fbfaf7"/>
+  <text x="30" y="38" class="title">同一个工具，五种可见度</text>
+  <text x="30" y="60" class="sub">工具一多，全塞进请求就是在烧 token；暴露度让「注册」和「现在让模型看见」分开。</text>
+
+  <text x="40" y="102" class="h">档位</text>
+  <text x="300" y="102" class="h">模型直接看到</text>
+  <text x="470" y="102" class="h">可被脚本调用</text>
+  <text x="640" y="102" class="h">用法</text>
+  <line x1="30" y1="112" x2="770" y2="112" stroke="#e5e1d8"/>
+
+  <g>
+    <rect x="24" y="120" width="746" height="52" rx="8" fill="#ffffff" stroke="#f0ece3"/>
+    <text x="40" y="152" class="mono">direct</text>
+    <text x="300" y="152" class="yes">是（激活即声明）</text>
+    <text x="470" y="152" class="yes">是</text>
+    <text x="640" y="152" class="cell">常规工具，默认档</text>
+  </g>
+  <g>
+    <rect x="24" y="178" width="746" height="52" rx="8" fill="#ffffff" stroke="#f0ece3"/>
+    <text x="40" y="210" class="mono">model-only</text>
+    <text x="300" y="210" class="yes">是</text>
+    <text x="470" y="210" class="no">否</text>
+    <text x="640" y="210" class="cell">编排别的工具、问用户</text>
+  </g>
+  <g>
+    <rect x="24" y="236" width="746" height="52" rx="8" fill="#ffffff" stroke="#f0ece3"/>
+    <text x="40" y="268" class="mono">codemode</text>
+    <text x="300" y="268" class="no">否（除非显式激活）</text>
+    <text x="470" y="268" class="yes">是</text>
+    <text x="640" y="268" class="cell">工具很多时，写脚本编排</text>
+  </g>
+  <g>
+    <rect x="24" y="294" width="746" height="52" rx="8" fill="#ffffff" stroke="#f0ece3"/>
+    <text x="40" y="326" class="mono">deferred</text>
+    <text x="300" y="326" class="no">否</text>
+    <text x="470" y="326" class="yes">是</text>
+    <text x="640" y="326" class="cell">靠搜索找出来再激活</text>
+  </g>
+  <g>
+    <rect x="24" y="352" width="746" height="52" rx="8" fill="#ffffff" stroke="#f0ece3"/>
+    <text x="40" y="384" class="mono">hidden</text>
+    <text x="300" y="384" class="no">否</text>
+    <text x="470" y="384" class="no">否</text>
+    <text x="640" y="384" class="cell">迟到注册的工具，先搁置</text>
+  </g>
+
+  <text x="30" y="424" class="note">工具不能卸载，只能重新注册为 hidden 撤回；codemode 与 deferred 的差别只在「谁负责把工具列出来」。</text>
+</svg>

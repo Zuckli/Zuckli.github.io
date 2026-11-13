@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="430" viewBox="0 0 800 430" role="img" aria-label="扩展状态的四种载体与会话树：工具 details、appendEntry、sendMessage、外部存储；会话是按分支组织的树，废弃分支不能用来重建状态">
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "Segoe UI", sans-serif; fill: #1f2328; }
+    .title { font-size: 19px; font-weight: 700; }
+    .sub { font-size: 12.5px; fill: #6b6b6b; }
+    .label { font-size: 10.5px; font-weight: 600; letter-spacing: .1em; }
+    .cardtitle { font-size: 12.6px; font-weight: 600; }
+    .desc { font-size: 10.8px; fill: #5d5d5d; }
+    .mono { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 10.6px; }
+    .note { font-size: 11.4px; fill: #6b6b6b; }
+    .flow { stroke: #b8b2a6; stroke-width: 1.4; fill: none; }
+    .dashed { stroke-dasharray: 4 4; }
+  </style>
+  <rect width="800" height="430" fill="#fbfaf7"/>
+  <text x="30" y="38" class="title">状态存在哪，决定它能不能被回滚</text>
+  <text x="30" y="60" class="sub">扩展写下的东西，如果只能活在一个进程里，reload 一次就没了；放进会话树里的才会跟着分支走。</text>
+
+  <!-- 四类载体 -->
+  <g>
+    <rect x="24" y="80" width="180" height="96" rx="8" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="38" y="98" class="label" fill="#d9772f">载体一</text>
+    <text x="38" y="118" class="cardtitle">工具结果 details</text>
+    <text x="38" y="136" class="desc">跟着当前分支走</text>
+    <text x="38" y="152" class="desc">用于渲染与状态重建</text>
+    <text x="38" y="168" class="desc">不进模型上下文</text>
+  </g>
+  <g>
+    <rect x="216" y="80" width="180" height="96" rx="8" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="230" y="98" class="label" fill="#2f6feb">载体二</text>
+    <text x="230" y="118" class="cardtitle">appendEntry()</text>
+    <text x="230" y="136" class="desc">写进会话历史</text>
+    <text x="230" y="152" class="desc">但不发给模型</text>
+    <text x="230" y="168" class="desc">适合审计与统计</text>
+  </g>
+  <g>
+    <rect x="408" y="80" width="180" height="96" rx="8" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="422" y="98" class="label" fill="#2f8a5b">载体三</text>
+    <text x="422" y="118" class="cardtitle">sendMessage()</text>
+    <text x="422" y="136" class="desc">存下来并且</text>
+    <text x="422" y="152" class="desc">真的发给模型看</text>
+    <text x="422" y="168" class="desc">要注册渲染器</text>
+  </g>
+  <g>
+    <rect x="600" y="80" width="176" height="96" rx="8" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="614" y="98" class="label" fill="#7b5cd6">载体四</text>
+    <text x="614" y="118" class="cardtitle">外部存储</text>
+    <text x="614" y="136" class="desc">跨会话的数据</text>
+    <text x="614" y="152" class="desc">自己管生命周期</text>
+    <text x="614" y="168" class="desc">不跟着回滚</text>
+  </g>
+
+  <!-- 会话树 -->
+  <text x="30" y="212" class="label" fill="#6b6b6b">会话是一棵树，不是一条线</text>
+  <g>
+    <circle cx="60" cy="268" r="7" fill="#2f8a5b"/>
+    <circle cx="120" cy="268" r="7" fill="#2f8a5b"/>
+    <circle cx="180" cy="268" r="7" fill="#2f8a5b"/>
+    <circle cx="240" cy="268" r="7" fill="#2f8a5b"/>
+    <circle cx="300" cy="268" r="7" fill="#2f8a5b"/>
+    <line x1="67" y1="268" x2="113" y2="268" stroke="#2f8a5b" stroke-width="2"/>
+    <line x1="127" y1="268" x2="173" y2="268" stroke="#2f8a5b" stroke-width="2"/>
+    <line x1="187" y1="268" x2="233" y2="268" stroke="#2f8a5b" stroke-width="2"/>
+    <line x1="247" y1="268" x2="293" y2="268" stroke="#2f8a5b" stroke-width="2"/>
+    <text x="52" y="292" class="desc">用户输入</text>
+    <text x="104" y="292" class="desc">工具调用</text>
+    <text x="170" y="292" class="desc">工具结果</text>
+    <text x="228" y="292" class="desc">压缩摘要</text>
+    <text x="288" y="292" class="desc">继续</text>
+    <text x="60" y="246" class="desc">当前分支（active branch）→ 下一次请求的历史</text>
+
+    <!-- 废弃分支 -->
+    <path class="flow dashed" d="M120,261 L150,220 L205,220"/>
+    <circle cx="150" cy="220" r="5.5" fill="#ffffff" stroke="#b8b2a6"/>
+    <circle cx="205" cy="220" r="5.5" fill="#ffffff" stroke="#b8b2a6"/>
+    <text x="214" y="224" class="desc">放弃的分支：同样是历史，但不是「现在」</text>
+  </g>
+
+  <!-- 压缩示意 -->
+  <g>
+    <rect x="480" y="196" width="290" height="76" rx="8" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="494" y="214" class="label" fill="#2f6feb">压缩不是删除</text>
+    <text x="494" y="234" class="desc">插一条摘要条目，替换「后续请求里的旧消息」；</text>
+    <text x="494" y="250" class="desc">原始条目仍在文件里，可以回溯与导出。</text>
+  </g>
+
+  <g>
+    <rect x="480" y="286" width="290" height="90" rx="8" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="494" y="304" class="label" fill="#d9772f">重建状态的唯一正确位置</text>
+    <text x="494" y="324" class="mono">session_start →</text>
+    <text x="494" y="340" class="mono">ctx.sessionManager.getBranch()</text>
+    <text x="494" y="360" class="desc">遍历整个文件会把放弃的分支也算进来。</text>
+  </g>
+
+  <text x="30" y="400" class="note">判断一条状态该放哪：它要不要跟着分支回滚？要不要给模型看见？跨不跨会话？三个问题的答案唯一。</text>
+  <text x="30" y="420" class="note">扩展里用全局变量兜住状态的写法，在 reload 与 session 替换之后必然失真——而这两个动作都很常见。</text>
+</svg>

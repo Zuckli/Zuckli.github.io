@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="440" viewBox="0 0 800 440" role="img" aria-label="Pi 的四类扩展点：改流程走事件、改能力走注册、改知识走文件、改外观走主题，四者由包统一分发">
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "Segoe UI", sans-serif; fill: #1f2328; }
+    .title { font-size: 19px; font-weight: 700; }
+    .sub { font-size: 12.5px; fill: #6b6b6b; }
+    .label { font-size: 10.5px; font-weight: 600; letter-spacing: .12em; }
+    .cardtitle { font-size: 13.5px; font-weight: 600; }
+    .desc { font-size: 11.4px; fill: #5d5d5d; }
+    .mono { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 10.8px; }
+    .note { font-size: 11.4px; fill: #6b6b6b; }
+    .side { font-size: 10.8px; fill: #6b6b6b; }
+  </style>
+  <rect width="800" height="440" fill="#fbfaf7"/>
+  <text x="30" y="38" class="title">要改的东西不同，改法就不同</text>
+  <text x="30" y="60" class="sub">四类扩展点各自解决一类问题；放错层，代价是每次都要执行代码，或者每次都要重启。</text>
+
+  <!-- package 外框 -->
+  <rect x="20" y="78" width="540" height="296" rx="10" fill="none" stroke="#b8b2a6" stroke-dasharray="5 4"/>
+  <text x="34" y="96" class="label" fill="#6b6b6b">PI PACKAGE：四类资源一起分发</text>
+
+  <!-- 1 流程 -->
+  <g>
+    <rect x="34" y="106" width="512" height="60" rx="8" fill="#ffffff" stroke="#e5e1d8"/>
+    <rect x="34" y="118" width="4" height="36" rx="2" fill="#d9772f"/>
+    <text x="50" y="126" class="label" fill="#d9772f">改流程</text>
+    <text x="50" y="148" class="cardtitle">Extension 事件钩子（TypeScript，跑在同一进程）</text>
+    <text x="50" y="162" class="mono" fill="#5d5d5d">pi.on("tool_call") · context · before_provider_request · agent_settled</text>
+  </g>
+
+  <!-- 2 能力 -->
+  <g>
+    <rect x="34" y="174" width="512" height="60" rx="8" fill="#ffffff" stroke="#e5e1d8"/>
+    <rect x="34" y="186" width="4" height="36" rx="2" fill="#2f6feb"/>
+    <text x="50" y="194" class="label" fill="#2f6feb">改能力</text>
+    <text x="50" y="216" class="cardtitle">注册新工具、模型提供商、MCP 服务器</text>
+    <text x="50" y="230" class="mono" fill="#5d5d5d">registerTool · registerProvider · registerMcpServer</text>
+  </g>
+
+  <!-- 3 知识 -->
+  <g>
+    <rect x="34" y="242" width="512" height="60" rx="8" fill="#ffffff" stroke="#e5e1d8"/>
+    <rect x="34" y="254" width="4" height="36" rx="2" fill="#2f8a5b"/>
+    <text x="50" y="262" class="label" fill="#2f8a5b">改知识</text>
+    <text x="50" y="284" class="cardtitle">技能、提示词模板、项目约定文件</text>
+    <text x="50" y="298" class="mono" fill="#5d5d5d">SKILL.md · prompts/*.md · AGENTS.md</text>
+  </g>
+
+  <!-- 4 外观 -->
+  <g>
+    <rect x="34" y="310" width="512" height="52" rx="8" fill="#ffffff" stroke="#e5e1d8"/>
+    <rect x="34" y="320" width="4" height="32" rx="2" fill="#7b5cd6"/>
+    <text x="50" y="330" class="label" fill="#7b5cd6">改外观</text>
+    <text x="50" y="352" class="cardtitle">主题（JSON 配色）与自定义渲染</text>
+  </g>
+
+  <!-- 右侧：谁会读到 -->
+  <text x="586" y="96" class="label" fill="#6b6b6b">谁读它 / 何时生效</text>
+  <g>
+    <text x="586" y="126" class="side">每个生命周期节点</text>
+    <text x="586" y="142" class="side">改完 /reload 或重启</text>
+    <text x="586" y="194" class="side">模型看到的工具表</text>
+    <text x="586" y="210" class="side">会话启动时装配</text>
+    <text x="586" y="262" class="side">模型按需读全文</text>
+    <text x="586" y="278" class="side">索引常驻，正文不进</text>
+    <text x="586" y="330" class="side">终端渲染</text>
+    <text x="586" y="346" class="side">启动时读取</text>
+  </g>
+
+  <text x="30" y="398" class="note">判断放哪一层，只问三件事：要不要执行代码？要不要每次会话都在？要不要被模型主动发现？</text>
+  <text x="30" y="418" class="note">三个都「是」才写扩展；后两个是「否」就是一个 Markdown 文件的事。</text>
+</svg>

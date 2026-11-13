@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="516" viewBox="0 0 800 516" role="img" aria-label="Pi 的生命周期事件链：一次 run 从 input 到 agent_settled，内部是 turn 循环，每轮包括 context 钩子、provider 四个钩子与工具五个钩子">
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "Segoe UI", sans-serif; fill: #1f2328; }
+    .title { font-size: 19px; font-weight: 700; }
+    .sub { font-size: 12.5px; fill: #6b6b6b; }
+    .label { font-size: 10.5px; font-weight: 600; letter-spacing: .12em; }
+    .ev { font-size: 11.2px; font-weight: 600; }
+    .desc { font-size: 10.9px; fill: #5d5d5d; }
+    .note { font-size: 11.4px; fill: #6b6b6b; }
+    .arrow { stroke: #b8b2a6; stroke-width: 1.4; fill: none; }
+    .arrowb { stroke: #2f6feb; stroke-width: 1.5; fill: none; }
+    .dashed { stroke-dasharray: 4 4; }
+  </style>
+  <defs>
+    <marker id="e" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#b8b2a6"/>
+    </marker>
+    <marker id="eb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2f6feb"/>
+    </marker>
+  </defs>
+
+  <rect width="800" height="516" fill="#fbfaf7"/>
+  <text x="30" y="38" class="title">一次 run 的骨架，就是一张钩子表</text>
+  <text x="30" y="60" class="sub">扩展能挂的位置是固定的；难点不在挂哪儿，而在挂上去以后它和别的钩子怎么组合。</text>
+
+  <!-- 外层节点 -->
+  <g><rect x="30" y="86" width="118" height="50" rx="7" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="42" y="104" class="ev">input</text>
+    <text x="42" y="121" class="desc">可改写、可吞掉输入</text></g>
+  <g><rect x="168" y="86" width="152" height="50" rx="7" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="180" y="104" class="ev">before_agent_start</text>
+    <text x="180" y="121" class="desc">换提示词段落 / 工具集</text></g>
+  <g><rect x="340" y="86" width="118" height="50" rx="7" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="352" y="104" class="ev">agent_start</text>
+    <text x="352" y="121" class="desc">一次底层 run 开始</text></g>
+
+  <path class="arrow" d="M150,111 L164,111" marker-end="url(#e)"/>
+  <path class="arrow" d="M322,111 L336,111" marker-end="url(#e)"/>
+
+  <!-- turn 群框 -->
+  <rect x="478" y="76" width="292" height="196" rx="10" fill="#f3f6fd" stroke="#d8e0f5"/>
+  <text x="492" y="94" class="label" fill="#2f6feb">TURNS：一轮一次模型请求</text>
+
+  <g><rect x="492" y="102" width="120" height="38" rx="6" fill="#ffffff" stroke="#d8e0f5"/>
+    <text x="504" y="119" class="ev">turn_start</text>
+    <text x="504" y="133" class="desc">准备请求</text></g>
+  <g><rect x="492" y="148" width="120" height="38" rx="6" fill="#ffffff" stroke="#d8e0f5"/>
+    <text x="504" y="165" class="ev">context</text>
+    <text x="504" y="179" class="desc">过滤对话消息</text></g>
+  <g><rect x="492" y="194" width="120" height="38" rx="6" fill="#ffffff" stroke="#d8e0f5"/>
+    <text x="504" y="211" class="ev">turn_end</text>
+    <text x="504" y="225" class="desc">追加条目 / 续一轮</text></g>
+
+  <g><rect x="634" y="102" width="122" height="64" rx="6" fill="#ffffff" stroke="#d8e0f5"/>
+    <text x="646" y="119" class="ev">provider ×4</text>
+    <text x="646" y="134" class="desc">headers / request</text>
+    <text x="646" y="148" class="desc">response / stream</text></g>
+  <g><rect x="634" y="176" width="122" height="56" rx="6" fill="#ffffff" stroke="#d8e0f5"/>
+    <text x="646" y="193" class="ev">tool ×5</text>
+    <text x="646" y="208" class="desc">开始 / 调用 / 更新</text>
+    <text x="646" y="222" class="desc">结果 / 结束</text></g>
+
+  <path class="arrowb" d="M612,121 L630,121" marker-end="url(#eb)"/>
+  <path class="arrowb dashed" d="M700,170 L700,172" marker-end="url(#eb)"/>
+  <path class="arrowb" d="M612,213 L630,213" marker-end="url(#eb)"/>
+  <path class="arrowb dashed" d="M636,180 C620,176 620,150 630,148" marker-end="url(#eb)"/>
+  <path class="arrowb dashed" d="M552,144 L552,146" marker-end="url(#eb)"/>
+  <text x="492" y="252" class="desc">工具结果 / 排队消息 → 再开一轮</text>
+
+  <path class="arrow" d="M458,100 L474,100" marker-end="url(#e)"/>
+
+  <!-- 下半段 -->
+  <g><rect x="340" y="296" width="118" height="58" rx="7" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="352" y="314" class="ev">agent_end</text>
+    <text x="352" y="332" class="desc">这一轮跑完，</text>
+    <text x="352" y="346" class="desc">可能还有活</text></g>
+  <path class="arrow" d="M624,272 C624,300 470,302 462,320" marker-end="url(#e)"/>
+
+  <g><rect x="168" y="296" width="152" height="58" rx="7" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="180" y="314" class="ev">agent_before_settle</text>
+    <text x="180" y="332" class="desc">最后一次追加</text>
+    <text x="180" y="346" class="desc">或要求再续一轮</text></g>
+  <path class="arrow" d="M336,325 L324,325" marker-end="url(#e)"/>
+
+  <g><rect x="30" y="296" width="118" height="58" rx="7" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="42" y="314" class="ev">agent_settled</text>
+    <text x="42" y="332" class="desc">真的空闲了</text>
+    <text x="42" y="346" class="desc">通知类工作放这里</text></g>
+  <path class="arrow" d="M164,325 L152,325" marker-end="url(#e)"/>
+
+  <!-- 会话生命周期 -->
+  <g>
+    <rect x="30" y="378" width="740" height="72" rx="8" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="44" y="396" class="label" fill="#7b5cd6">另一条链：会话</text>
+    <text x="44" y="416" class="desc">启动 → project_trust → session_start → resources_discover</text>
+    <text x="44" y="434" class="desc">/new 或 /fork → session_before_switch、session_before_fork → session_shutdown → 换运行时 → 新的 session_start</text>
+  </g>
+
+  <text x="30" y="474" class="note">两个最常见的误判：把 agent_end 当结束（后面还可能有重试、恢复、压缩后重跑）；在 context 里连 system 一起改（该用 context_with_system）。</text>
+  <text x="30" y="494" class="note">事件顺序就是优先级：先加载的处理器先跑；「最后一票」的语义（例如缓存保温）另有约定。</text>
+</svg>
