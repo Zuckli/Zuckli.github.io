@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="452" viewBox="0 0 800 452" role="img" aria-label="技能生命周期：创建后进入 active，14 天未使用转 stale，30 天归档但不删除，可 restore；pin 与 lock 提供旁路保护">
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "Segoe UI", sans-serif; fill: #1f2328; }
+    .title { font-size: 19px; font-weight: 700; }
+    .sub { font-size: 12.5px; fill: #6b6b6b; }
+    .label { font-size: 10.5px; font-weight: 600; letter-spacing: .1em; }
+    .state { font-size: 15px; font-weight: 600; }
+    .desc { font-size: 11px; fill: #5d5d5d; }
+    .small { font-size: 10.4px; fill: #6b6b6b; }
+    .mono { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 10.4px; }
+    .arrow { stroke: #b8b2a6; stroke-width: 1.4; fill: none; }
+    .dashed { stroke-dasharray: 4 4; }
+    .purple { stroke: #7b5cd6; stroke-width: 1.5; fill: none; }
+    .note { font-size: 11.4px; fill: #6b6b6b; }
+  </style>
+  <defs>
+    <marker id="k" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#b8b2a6"/>
+    </marker>
+    <marker id="kp" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#7b5cd6"/>
+    </marker>
+  </defs>
+
+  <rect width="800" height="452" fill="#fbfaf7"/>
+  <text x="30" y="38" class="title">技能会变旧，所以要先定好退场规则</text>
+  <text x="30" y="60" class="sub">衰减只看时间，不看模型判断：不花 token，也不会因为一次误判删掉有用的东西。</text>
+
+  <!-- 三个状态 -->
+  <g>
+    <rect x="50" y="120" width="150" height="76" rx="10" fill="#ffffff" stroke="#cfe0ce" stroke-width="1.4"/>
+    <text x="66" y="146" class="label" fill="#2f8a5b">ACTIVE</text>
+    <text x="66" y="170" class="state">在用</text>
+    <text x="66" y="188" class="small">被加载、被引用、被改</text>
+  </g>
+  <g>
+    <rect x="310" y="120" width="150" height="76" rx="10" fill="#ffffff" stroke="#e8dcc0" stroke-width="1.4"/>
+    <text x="326" y="146" class="label" fill="#a9832c">STALE</text>
+    <text x="326" y="170" class="state">变旧</text>
+    <text x="326" y="188" class="small">还能用，只是没人用了</text>
+  </g>
+  <g>
+    <rect x="570" y="120" width="150" height="76" rx="10" fill="#ffffff" stroke="#e0dcd4" stroke-width="1.4"/>
+    <text x="586" y="146" class="label" fill="#6b6b6b">ARCHIVED</text>
+    <text x="586" y="170" class="state">归档</text>
+    <text x="586" y="188" class="small">移出索引，文件仍在</text>
+  </g>
+
+  <path class="arrow" d="M200,158 L304,158" marker-end="url(#k)"/>
+  <text x="212" y="148" class="small">14 天未使用</text>
+  <path class="arrow" d="M460,158 L564,158" marker-end="url(#k)"/>
+  <text x="472" y="148" class="small">再 16 天未使用</text>
+
+  <!-- restore -->
+  <path class="arrow dashed" d="M645,196 C645,270 200,270 125,200" marker-end="url(#k)"/>
+  <text x="330" y="286" class="small">hermes curator restore &lt;name&gt; ／ 或直接 mv 回来</text>
+
+  <!-- pin 旁路 -->
+  <path class="purple dashed" d="M125,108 C125,80 200,80 200,108" marker-end="url(#kp)"/>
+  <text x="232" y="86" class="small">pin：不迁移、不归档，但可以被继续改进</text>
+  <text x="232" y="102" class="small">lock：内容冻结，Agent 只能读不能改</text>
+
+  <!-- 数据卡 -->
+  <g>
+    <rect x="50" y="306" width="670" height="66" rx="10" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="66" y="328" class="label" fill="#2f6feb">THIS MACHINE</text>
+    <text x="66" y="350" class="desc">26 个受管技能（全部 Agent 创建）　·　24 active　·　2 stale　·　0 archived　·　6 个 pin</text>
+    <text x="66" y="366" class="small">最近一次策展：1 天前，纯时间判定，0 次模型调用。</text>
+  </g>
+
+  <text x="30" y="404" class="note">只有 Agent 自己创建的技能进这套生命周期；随仓库分发的和从 Hub 装的默认不受管，避免「装好的东西自己消失」。</text>
+  <text x="30" y="422" class="note">归并（把重叠的技能合成一个伞形）默认关闭：它要跑几十到上百次模型调用，改的是结构，改错要回滚。</text>
+</svg>

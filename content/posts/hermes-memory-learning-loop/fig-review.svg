@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="480" viewBox="0 0 800 480" role="img" aria-label="复盘分身结构：主对话线程保持前缀缓存不变，每轮结束后 fork 一个分身回放快照、决定写回什么">
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "Segoe UI", sans-serif; fill: #1f2328; }
+    .title { font-size: 19px; font-weight: 700; }
+    .sub { font-size: 12.5px; fill: #6b6b6b; }
+    .label { font-size: 10.5px; font-weight: 600; letter-spacing: .1em; }
+    .cardtitle { font-size: 13px; font-weight: 600; }
+    .desc { font-size: 11px; fill: #5d5d5d; }
+    .small { font-size: 10.4px; fill: #6b6b6b; }
+    .mono { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 10.4px; }
+    .arrow { stroke: #b8b2a6; stroke-width: 1.4; fill: none; }
+    .arrow-blue { stroke: #2f6feb; stroke-width: 1.5; fill: none; }
+    .dashed { stroke-dasharray: 4 4; }
+    .note { font-size: 11.4px; fill: #6b6b6b; }
+  </style>
+  <defs>
+    <marker id="g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#b8b2a6"/>
+    </marker>
+    <marker id="b" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2f6feb"/>
+    </marker>
+  </defs>
+
+  <rect width="800" height="480" fill="#fbfaf7"/>
+  <text x="30" y="38" class="title">学习发生在主线程之外</text>
+  <text x="30" y="60" class="sub">教训必须写下来，但不能改写正在跑的那段上下文——否则前缀缓存和对话本身一起坏掉。</text>
+
+  <!-- 主线程 -->
+  <rect x="30" y="82" width="540" height="108" rx="10" fill="#ffffff" stroke="#e5e1d8"/>
+  <text x="46" y="104" class="label" fill="#d9772f">MAIN LOOP</text>
+  <text x="46" y="124" class="cardtitle">主对话线程：系统提示与工具集保持不动</text>
+  <g>
+    <rect x="46" y="134" width="96" height="40" rx="6" fill="#fbf6f1" stroke="#ecdccb"/>
+    <text x="58" y="152" class="mono">turn 1</text>
+    <text x="58" y="167" class="small">工具调用</text>
+  </g>
+  <g>
+    <rect x="154" y="134" width="96" height="40" rx="6" fill="#fbf6f1" stroke="#ecdccb"/>
+    <text x="166" y="152" class="mono">turn 2</text>
+    <text x="166" y="167" class="small">报错 + 纠正</text>
+  </g>
+  <g>
+    <rect x="262" y="134" width="96" height="40" rx="6" fill="#fbf6f1" stroke="#ecdccb"/>
+    <text x="274" y="152" class="mono">turn …</text>
+    <text x="274" y="167" class="small">找到做法</text>
+  </g>
+  <g>
+    <rect x="370" y="134" width="96" height="40" rx="6" fill="#fbf6f1" stroke="#ecdccb"/>
+    <text x="382" y="152" class="mono">turn N</text>
+    <text x="382" y="167" class="small">交付</text>
+  </g>
+  <text x="480" y="152" class="small">前缀不变 →</text>
+  <text x="480" y="168" class="small">缓存继续命中</text>
+
+  <path class="arrow dashed" d="M300,192 L300,232" marker-end="url(#g)"/>
+  <text x="308" y="216" class="small">每轮结束后 fork（不复用主线程上下文）</text>
+
+  <!-- fork 区 -->
+  <rect x="30" y="236" width="540" height="176" rx="10" fill="#ffffff" stroke="#e5e1d8"/>
+  <text x="46" y="258" class="label" fill="#2f6feb">REVIEW FORK</text>
+  <text x="46" y="278" class="cardtitle">分身只回答一个问题：这次该记住什么？</text>
+
+  <g>
+    <rect x="46" y="290" width="150" height="72" rx="6" fill="#f3f6fd" stroke="#d8e0f5"/>
+    <text x="58" y="309" class="cardtitle" fill="#2f6feb">① 回放</text>
+    <text x="58" y="326" class="desc">把这一轮的对话压成</text>
+    <text x="58" y="341" class="desc">摘要 + 最近若干条原文</text>
+  </g>
+  <path class="arrow-blue" d="M200,326 L222,326" marker-end="url(#b)"/>
+  <g>
+    <rect x="226" y="290" width="160" height="72" rx="6" fill="#f3f6fd" stroke="#d8e0f5"/>
+    <text x="238" y="309" class="cardtitle" fill="#2f6feb">② 找归属</text>
+    <text x="238" y="326" class="desc">先看这次加载过哪个技能，</text>
+    <text x="238" y="341" class="desc">能补它就别新建</text>
+  </g>
+  <path class="arrow-blue" d="M390,326 L412,326" marker-end="url(#b)"/>
+  <g>
+    <rect x="416" y="290" width="138" height="72" rx="6" fill="#f3f6fd" stroke="#d8e0f5"/>
+    <text x="428" y="309" class="cardtitle" fill="#2f6feb">③ 写回</text>
+    <text x="428" y="326" class="desc">记忆加一条、技能打个</text>
+    <text x="428" y="341" class="desc">补丁，然后在聊天里说一句</text>
+  </g>
+
+  <text x="46" y="386" class="small">读是自由的；写有门禁：改前必读（read-before-write）、可要求审批（write_approval）、不许删技能。</text>
+  <text x="46" y="402" class="small">分身崩了只影响这一次复盘，主对话已经交付完了。</text>
+
+  <!-- 右侧约束 -->
+  <g>
+    <rect x="596" y="82" width="174" height="90" rx="10" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="610" y="102" class="label" fill="#2f8a5b">预算</text>
+    <text x="610" y="122" class="desc">输入上限取窗口的 75%，</text>
+    <text x="610" y="138" class="desc">封顶 60 万 tokens；</text>
+    <text x="610" y="154" class="desc">可换便宜的辅助模型跑。</text>
+  </g>
+  <g>
+    <rect x="596" y="186" width="174" height="106" rx="10" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="610" y="206" class="label" fill="#7b5cd6">工具白名单</text>
+    <text x="610" y="226" class="desc">只能碰 memory 与</text>
+    <text x="610" y="242" class="mono">skill_manage</text>
+    <text x="610" y="258" class="desc">读写之外的动作</text>
+    <text x="610" y="274" class="desc">在分身上根本不可用。</text>
+  </g>
+  <g>
+    <rect x="596" y="306" width="174" height="106" rx="10" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="610" y="326" class="label" fill="#d9772f">触发</text>
+    <text x="610" y="346" class="desc">默认每轮之后自动跑；</text>
+    <text x="610" y="362" class="mono">/refine</text>
+    <text x="664" y="362" class="desc">手动补一次；</text>
+    <text x="610" y="378" class="desc">一次性 <tspan class="mono">chat -q</tspan> 不跑，</text>
+    <text x="610" y="394" class="desc">没人看的时候不花这笔钱。</text>
+  </g>
+  <text x="30" y="462" class="note">「分身」是同一套 Agent 代码跑在另一段上下文里：同 provider、同凭据、同缓存前缀，但工具集被收窄。</text>
+</svg>

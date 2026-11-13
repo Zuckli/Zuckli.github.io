@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="470" viewBox="0 0 800 470" role="img" aria-label="自进化闭环：会话中的经验经后台复盘写回三个持久存储，下次会话开场注入，策展人按时间做衰减与归并">
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "Segoe UI", sans-serif; fill: #1f2328; }
+    .title { font-size: 19px; font-weight: 700; }
+    .sub { font-size: 12.5px; fill: #6b6b6b; }
+    .label { font-size: 10.5px; font-weight: 600; letter-spacing: .12em; }
+    .cardtitle { font-size: 14.5px; font-weight: 600; }
+    .desc { font-size: 11.5px; fill: #5d5d5d; }
+    .small { font-size: 10.5px; fill: #6b6b6b; }
+    .mono { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 10.5px; }
+    .flow { font-size: 10.5px; fill: #6b6b6b; }
+    .arrow { stroke: #b8b2a6; stroke-width: 1.4; fill: none; }
+    .arrow-accent { stroke: #d9772f; stroke-width: 1.6; fill: none; }
+    .dashed { stroke-dasharray: 4 4; }
+    .note { font-size: 11.4px; fill: #6b6b6b; }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#b8b2a6"/>
+    </marker>
+    <marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#d9772f"/>
+    </marker>
+  </defs>
+
+  <rect width="800" height="470" fill="#fbfaf7"/>
+  <text x="30" y="38" class="title">一圈闭环：经验写回、开场注入、按时间衰减</text>
+  <text x="30" y="60" class="sub">能往存储里写只是一半；另一半是让旧东西自己退场。</text>
+
+  <!-- A 会话 -->
+  <g>
+    <rect x="30" y="84" width="240" height="106" rx="10" fill="#ffffff" stroke="#e5e1d8"/>
+    <rect x="30" y="98" width="4" height="78" rx="2" fill="#d9772f"/>
+    <text x="48" y="106" class="label" fill="#d9772f">IN SESSION</text>
+    <text x="48" y="130" class="cardtitle">这一次会话</text>
+    <text x="48" y="150" class="desc">工具调用、你的纠正、这次踩到的坑</text>
+    <text x="48" y="168" class="desc">全是工作记忆，关掉就没了</text>
+  </g>
+
+  <!-- B 复盘 -->
+  <g>
+    <rect x="352" y="84" width="196" height="106" rx="10" fill="#ffffff" stroke="#e5e1d8"/>
+    <rect x="352" y="98" width="4" height="78" rx="2" fill="#2f6feb"/>
+    <text x="370" y="106" class="label" fill="#2f6feb">AFTER TURN</text>
+    <text x="370" y="130" class="cardtitle">复盘分身</text>
+    <text x="370" y="150" class="desc">回放对话快照，只回答一个问题：</text>
+    <text x="370" y="168" class="desc">「这次该记住什么？」</text>
+  </g>
+
+  <!-- C 持久层 -->
+  <g>
+    <rect x="600" y="72" width="170" height="196" rx="10" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="616" y="94" class="label" fill="#2f8a5b">PERSISTENT</text>
+    <g>
+      <rect x="614" y="102" width="142" height="46" rx="6" fill="#f4f8f3" stroke="#d9e6d8"/>
+      <text x="624" y="120" class="mono">MEMORY.md</text>
+      <text x="624" y="137" class="small">2,200 字符 · USER.md 1,375</text>
+    </g>
+    <g>
+      <rect x="614" y="156" width="142" height="46" rx="6" fill="#f3f6fd" stroke="#d8e0f5"/>
+      <text x="624" y="174" class="mono">SKILL.md × 92</text>
+      <text x="624" y="191" class="small">索引 3.2k tokens，正文按需</text>
+    </g>
+    <g>
+      <rect x="614" y="210" width="142" height="46" rx="6" fill="#fbf6f1" stroke="#ecdccb"/>
+      <text x="624" y="228" class="mono">state.db</text>
+      <text x="624" y="245" class="small">全文检索的历史会话</text>
+    </g>
+  </g>
+
+  <!-- D 策展人 -->
+  <g>
+    <rect x="600" y="320" width="170" height="100" rx="10" fill="#ffffff" stroke="#e5e1d8"/>
+    <rect x="600" y="334" width="4" height="72" rx="2" fill="#7b5cd6"/>
+    <text x="616" y="342" class="label" fill="#7b5cd6">DECAY</text>
+    <text x="616" y="364" class="cardtitle">策展人</text>
+    <text x="616" y="382" class="desc">14 天不用标记 stale</text>
+    <text x="616" y="399" class="desc">30 天不用归档，永不删除</text>
+  </g>
+
+  <!-- E 下次会话 -->
+  <g>
+    <rect x="30" y="320" width="240" height="100" rx="10" fill="#ffffff" stroke="#e5e1d8"/>
+    <rect x="30" y="334" width="4" height="72" rx="2" fill="#d9772f"/>
+    <text x="48" y="342" class="label" fill="#d9772f">NEXT SESSION</text>
+    <text x="48" y="364" class="cardtitle">下一次会话开场</text>
+    <text x="48" y="382" class="desc">记忆 + 技能索引已在系统提示里</text>
+    <text x="48" y="399" class="desc">上一轮的教训，成了这一轮的起点</text>
+  </g>
+
+  <!-- arrows -->
+  <path class="arrow" d="M272,137 L346,137" marker-end="url(#a)"/>
+  <text x="278" y="128" class="flow">每轮结束</text>
+
+  <path class="arrow-accent" d="M550,137 L594,137" marker-end="url(#ao)"/>
+  <text x="538" y="128" class="flow">写回</text>
+
+  <path class="arrow" d="M685,270 L685,314" marker-end="url(#a)"/>
+  <text x="694" y="296" class="flow">使用计数</text>
+
+  <path class="arrow dashed" d="M762,320 L762,278" marker-end="url(#a)"/>
+  <text x="726" y="308" class="flow">归档</text>
+
+  <path class="arrow-accent" d="M600,226 C470,300 400,340 276,368" marker-end="url(#ao)"/>
+  <text x="392" y="296" class="flow">开场注入：记忆全文 + 技能索引</text>
+
+  <path class="arrow" d="M150,318 L150,196" marker-end="url(#a)"/>
+  <text x="158" y="262" class="flow">新经验</text>
+
+  <text x="30" y="452" class="note">写回可以是自动的，也可以被 write_approval 改成待审；门禁只挡住写，不挡住读。</text>
+</svg>
