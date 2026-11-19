@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="440" viewBox="0 0 800 440" role="img" aria-label="Cursor Router 的两段式决策：先用 Compass 判断难度是否低于阈值，复杂请求再按任务标签路由到前沿模型，并受 75% 置信门槛与档位预算约束">
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "Segoe UI", sans-serif; fill: #1f2328; }
+    .title { font-size: 19px; font-weight: 700; }
+    .sub { font-size: 12.5px; fill: #6b6b6b; }
+    .label { font-size: 10.5px; font-weight: 600; letter-spacing: .14em; fill: #8a8377; }
+    .cardtitle { font-size: 12.6px; font-weight: 600; }
+    .desc { font-size: 11.4px; fill: #6b6b6b; }
+    .small { font-size: 10.6px; fill: #6b6b6b; }
+    .accent { fill: #d9772f; }
+    .blue { fill: #2f6feb; }
+  </style>
+  <rect width="800" height="440" fill="#fbfaf7"/>
+  <text x="30" y="40" class="title">Cursor Router：先问「够不够简单」，再问「哪个更强」</text>
+  <g>
+    <rect x="300" y="62" width="200" height="38" rx="8" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="400" y="86" class="cardtitle" text-anchor="middle">一次 agent 请求</text>
+  </g>
+  <path d="M 400 100 L 400 126" stroke="#c9c2b3" stroke-width="1.6" marker-end="url(#a)"/>
+  <g>
+    <rect x="250" y="128" width="300" height="56" rx="8" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="400" y="152" class="cardtitle" text-anchor="middle">Compass：与模型无关的难度分 σ</text>
+    <text x="400" y="171" class="small" text-anchor="middle">任务类型 + 最近工具调用 + 上下文</text>
+  </g>
+  <path d="M 400 184 L 400 204" stroke="#c9c2b3" stroke-width="1.6" marker-end="url(#a)"/>
+  <g>
+    <rect x="290" y="206" width="220" height="38" rx="8" fill="#fdf6ef" stroke="#d9772f"/>
+    <text x="400" y="230" class="cardtitle" text-anchor="middle">σ 与阈值 τ 比较</text>
+  </g>
+  <path d="M 290 225 H 180 V 247" fill="none" stroke="#c9c2b3" stroke-width="1.6" marker-end="url(#a)"/>
+  <text x="196" y="217" class="small accent">σ &lt; τ</text>
+  <path d="M 510 225 H 620 V 247" fill="none" stroke="#c9c2b3" stroke-width="1.6" marker-end="url(#a)"/>
+  <text x="534" y="217" class="small blue">σ ≥ τ</text>
+  <g>
+    <rect x="64" y="249" width="232" height="68" rx="8" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="80" y="273" class="cardtitle">便宜模型：成本底线</text>
+    <text x="80" y="292" class="small">Grok 类：git 命令、常规 DB 操作</text>
+    <text x="80" y="309" class="small">按设计吃掉大部分日常流量</text>
+  </g>
+  <g>
+    <rect x="490" y="249" width="246" height="68" rx="8" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="506" y="273" class="cardtitle">taxonomy：按任务标签选</text>
+    <text x="506" y="292" class="small">domain × task × modifier</text>
+    <text x="506" y="309" class="small">标签体系来自真实开发者流量</text>
+  </g>
+  <g>
+    <rect x="40" y="344" width="720" height="76" rx="10" fill="#f4f2ec" stroke="#e5e1d8"/>
+    <text x="60" y="368" class="cardtitle">两条硬规则：两条路径都受它约束</text>
+    <text x="60" y="388" class="small">① 只有单侧 75% 置信认为「确实更好」的模型才入选，没把握就不升级</text>
+    <text x="60" y="406" class="small">② 在该档位的平均单轮成本预算内，选流量加权后总收益最大的模型组合</text>
+  </g>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#c9c2b3"/></marker></defs>
+</svg>

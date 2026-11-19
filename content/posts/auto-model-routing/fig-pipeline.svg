@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="252" viewBox="0 0 800 252" role="img" aria-label="Auto 的五个环节：圈候选池、读请求、判档、选模型、落 provider 并保持会话粘性">
+  <style>
+    text { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "Segoe UI", sans-serif; fill: #1f2328; }
+    .title { font-size: 19px; font-weight: 700; }
+    .sub { font-size: 12.5px; fill: #6b6b6b; }
+    .label { font-size: 10.5px; font-weight: 600; letter-spacing: .14em; fill: #8a8377; }
+    .cardtitle { font-size: 13px; font-weight: 600; }
+    .desc { font-size: 11.4px; fill: #6b6b6b; }
+    .small { font-size: 10.6px; fill: #6b6b6b; }
+    .accent { fill: #d9772f; }
+    .blue { fill: #2f6feb; }
+  </style>
+  <rect width="800" height="252" fill="#fbfaf7"/>
+  <text x="30" y="42" class="title">Auto 的五个环节：每一环都在缩小候选范围</text>
+  <g>
+    <rect x="23" y="66" width="138" height="102" rx="10" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="37" y="90" class="label">01</text>
+    <text x="92.0" y="116" class="cardtitle" text-anchor="middle">圈候选池</text>
+    <text x="92.0" y="138" class="small" text-anchor="middle">套餐·白名单</text>
+    <text x="92.0" y="155" class="small" text-anchor="middle">健康度·region</text>
+  </g>
+  <path d="M 165 117.0 l 8 0" stroke="#c9c2b3" stroke-width="1.6" stroke-linecap="round"/>
+  <g>
+    <rect x="177" y="66" width="138" height="102" rx="10" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="191" y="90" class="label">02</text>
+    <text x="246.0" y="116" class="cardtitle" text-anchor="middle">读请求</text>
+    <text x="246.0" y="138" class="small" text-anchor="middle">任务类型</text>
+    <text x="246.0" y="155" class="small" text-anchor="middle">工具·图片·上下文</text>
+  </g>
+  <path d="M 319 117.0 l 8 0" stroke="#c9c2b3" stroke-width="1.6" stroke-linecap="round"/>
+  <g>
+    <rect x="331" y="66" width="138" height="102" rx="10" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="345" y="90" class="label">03</text>
+    <text x="400.0" y="116" class="cardtitle" text-anchor="middle">判档</text>
+    <text x="400.0" y="138" class="small" text-anchor="middle">难度分 vs 阈值</text>
+    <text x="400.0" y="155" class="small" text-anchor="middle">三档预算</text>
+  </g>
+  <path d="M 473 117.0 l 8 0" stroke="#c9c2b3" stroke-width="1.6" stroke-linecap="round"/>
+  <g>
+    <rect x="485" y="66" width="138" height="102" rx="10" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="499" y="90" class="label">04</text>
+    <text x="554.0" y="116" class="cardtitle" text-anchor="middle">选模型</text>
+    <text x="554.0" y="138" class="small" text-anchor="middle">候选打分</text>
+    <text x="554.0" y="155" class="small" text-anchor="middle">预算内最优组合</text>
+  </g>
+  <path d="M 627 117.0 l 8 0" stroke="#c9c2b3" stroke-width="1.6" stroke-linecap="round"/>
+  <g>
+    <rect x="639" y="66" width="138" height="102" rx="10" fill="#ffffff" stroke="#e5e1d8"/>
+    <text x="653" y="90" class="label">05</text>
+    <text x="708.0" y="116" class="cardtitle" text-anchor="middle">落 provider</text>
+    <text x="708.0" y="138" class="small" text-anchor="middle">同模型多家</text>
+    <text x="708.0" y="155" class="small" text-anchor="middle">会话粘性优先</text>
+  </g>
+  <text x="30" y="212" class="desc">第 5 步之后还有一件常被忽略的事：下一轮分类只看变化，否则缓存重建的成本会吃掉省下的钱。</text>
+</svg>
