@@ -1,0 +1,20 @@
+<svg viewBox="0 0 340 210" width="800" height="494" xmlns="http://www.w3.org/2000/svg">
+  <rect width="340" height="210" rx="6" fill="#fbfaf7" />
+  <text x="80" y="19" font-size="12" fill="currentColor" text-anchor="middle">传统 T 型</text>
+  <text x="253" y="19" font-size="12" fill="currentColor" text-anchor="middle">AI 时代 π 型</text>
+  <rect x="14" y="36" width="134" height="24" rx="4" fill="#94a3b8" />
+  <rect x="65" y="60" width="32" height="119" rx="3" fill="#64748b" />
+  <text x="81" y="52" fill="#ffffff" font-size="10" text-anchor="middle">技术广度</text>
+  <text x="81" y="112" fill="#ffffff" font-size="10" text-anchor="middle">核心</text>
+  <text x="81" y="126" fill="#ffffff" font-size="10" text-anchor="middle">深度</text>
+  <rect x="173" y="36" width="159" height="24" rx="4" fill="#60a5fa" />
+  <rect x="193" y="60" width="39" height="119" rx="3" fill="#2563eb" />
+  <rect x="273" y="60" width="39" height="119" rx="3" fill="#2563eb" />
+  <text x="252" y="52" fill="#ffffff" font-size="10" text-anchor="middle">更广的技术覆盖面</text>
+  <text x="212" y="105" fill="#ffffff" font-size="10" text-anchor="middle">核心</text>
+  <text x="212" y="119" fill="#ffffff" font-size="10" text-anchor="middle">领域 A</text>
+  <text x="292" y="105" fill="#ffffff" font-size="10" text-anchor="middle">核心</text>
+  <text x="292" y="119" fill="#ffffff" font-size="10" text-anchor="middle">领域 B</text>
+  <text x="81" y="198" fill="currentColor" font-size="10" text-anchor="middle">单领域专业能力</text>
+  <text x="252" y="198" fill="currentColor" font-size="10" text-anchor="middle">跨领域解决复杂问题</text>
+</svg>
