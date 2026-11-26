@@ -1,0 +1,11 @@
+{{- /*
+  ```mermaid 代码块不走 chroma 高亮（Hugo 没有 mermaid 词法，会退化成 fallback），
+  直接输出一个 div，由 extend_head.html 里的 mermaid.js 在浏览器端画成图。
+  其余代码块保持默认高亮：HighlightCodeBlock 返回的是结构体，取 .Wrapped 才是 HTML。
+*/ -}}
+{{- if eq .Type "mermaid" -}}
+<div class="mermaid" data-pagefind-ignore>{{ .Inner }}</div>
+{{- else -}}
+{{- $hl := transform.HighlightCodeBlock . -}}
+{{- $hl.Wrapped -}}
+{{- end -}}

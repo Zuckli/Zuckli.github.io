@@ -942,3 +942,31 @@ kbd {
     border: 1px solid #ccc;
   }
 }
+/* ---------- mermaid 代码块渲染（front matter 写 mermaid: true 才生效） ---------- */
+.mermaid {
+  margin: 2rem 0;
+  text-align: center;
+  /* 图保持原始尺寸，比正文列宽时横向滚动，不缩到读不清 */
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mermaid svg {
+  max-width: none;
+  height: auto;
+}
+
+/* 渲染完成前别闪出一大段源码 */
+.mermaid:not([data-processed]) {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  text-align: left;
+  white-space: pre;
+  overflow-x: auto;
+  opacity: 0.45;
+}
+
+.mermaid[data-processed] {
+  opacity: 1;
+}

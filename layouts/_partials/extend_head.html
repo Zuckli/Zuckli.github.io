@@ -21,3 +21,76 @@
   });
 </script>
 {{- end }}
+{{- /* 只在 front matter 写 mermaid: true 的页面把 ```mermaid 代码块渲染成图，跟随明暗模式重绘 */ -}}
+{{- if .Params.mermaid }}
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.esm.min.mjs";
+
+  /* mermaid 会把标签文字当 Markdown 解析：以 "1. " 开头的标签被当成有序列表，
+     整块显示成 "Unsupported markdown: list"；标签里的 "#" 会被当成实体开头，吃掉后半截。
+     渲染前处置这两处（# 用 mermaid 的实体写法 #35;），显示出来的文字与原稿一致。 */
+  const prep = (src) =>
+    src
+      .replace(/"([^"]*)"/g, (m, inner) => '"' + inner.replace(/^(\s*\d+)\.(?=\s)/, "$1\\.") + '"')
+      .replace(/#(?![0-9]+;)/g, "#35;");
+
+  const holders = [...document.querySelectorAll("div.mermaid")];
+
+  if (holders.length) {
+    holders.forEach((h) => (h.dataset.src = h.textContent));
+
+    const theme = () => {
+      const t = document.documentElement.dataset.theme;
+      if (t === "dark") return "dark";
+      if (t === "light") return "light";
+      return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    };
+
+    const config = (mode) => {
+      const dark = mode === "dark";
+      return {
+        startOnLoad: false,
+        securityLevel: "strict",
+        theme: dark ? "dark" : "base",
+        fontFamily: getComputedStyle(document.body).fontFamily,
+        /* 图比正文列宽，缩小到列宽会把 14px 的标签压到 5px。
+           保持原始尺寸，横向滚动，字号才读得清。 */
+        flowchart: { useMaxWidth: false },
+        sequence: { useMaxWidth: false },
+        themeVariables: dark
+          ? {
+              background: "#1d1e20", primaryColor: "#26282b", secondaryColor: "#2b2d30",
+              tertiaryColor: "#24262a", primaryTextColor: "#e6e4df", textColor: "#e6e4df",
+              primaryBorderColor: "#3d4044", lineColor: "#8a8a8a",
+              edgeLabelBackground: "#24262a", fontSize: "14px"
+            }
+          : {
+              background: "#ffffff", primaryColor: "#fbfaf7", secondaryColor: "#f4f1ea",
+              tertiaryColor: "#ffffff", primaryTextColor: "#1f2328", textColor: "#1f2328",
+              primaryBorderColor: "#d9d4c8", lineColor: "#6b6b6b",
+              edgeLabelBackground: "#fbfaf7", fontSize: "14px"
+            }
+      };
+    };
+
+    let painted = null;
+    const render = async () => {
+      const mode = theme();
+      if (mode === painted) return;
+      painted = mode;
+      mermaid.initialize(config(mode));
+      holders.forEach((h) => {
+        h.removeAttribute("data-processed");
+        h.textContent = prep(h.dataset.src);
+      });
+      await mermaid.run({ nodes: holders, suppressErrors: true });
+    };
+
+    await render();
+    new MutationObserver(render).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"]
+    });
+  }
+</script>
+{{- end }}
